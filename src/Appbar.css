@@ -1,0 +1,54 @@
+.navbar{
+    background-color: #e9ecef !important;
+    border: transparent !important;
+    padding: 1px;
+}
+
+.dropdown-menu {
+    background-color: #f1feff !important;
+    /* border: 1px solid darkcyan; */
+}
+
+.navbar-in{
+    background-color: #e9ecef !important;
+    border: transparent !important;
+    padding: 4px;
+}
+
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index:4;
+  }
+
+.brand-name {
+    color: #3F4596 !important;
+}
+
+.btn-header-out {
+    background-color: #9CC44C !important;
+    color: white !important;
+    border-color: transparent !important;
+}
+
+.btn-header-out:hover {
+    background-color: #6A8534 !important;
+    color: white !important;
+    border-color: transparent !important;
+}
+
+.dropdown-toggle-color a {
+    color: rgba(0,0,0,.5);
+}
+
+.dropdown-toggle-color a:hover {
+    color: rgba(0,0,0,.7);
+}
+
+.dropdown-color {
+    color: black !important;
+}
+
+.menu-color {
+    text-shadow: 0 0 black;
+}

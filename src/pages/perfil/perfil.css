@@ -1,0 +1,111 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100hv;
+}
+
+.childPerfil {
+  margin-left: 30vh;
+  margin-right: 30vh;
+  margin-top: 10vh;
+  /* max-height: 85vh; */
+  
+  /* talvez alterar a transparencia do branco */
+  background-color: white;
+ 
+  border-radius: 15px;
+  border: solid;
+  border-width: thin;
+}
+
+.contentPerfil {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+  /* max-height: 80vh; */
+  
+}
+
+.btn-save-perfil {
+  background-color: #9CC44C ;
+  color: white !important;
+  border-color: transparent !important;
+  width: 40%;
+  margin-right: 20px;
+}
+
+.btn-save-perfil:hover {
+  background-color: #6A8534;
+}
+
+.btn-delete-perfil {
+  background-color: #FF351F;
+  color: white !important;
+  border-color: transparent !important;
+  width: 40%;
+  margin-right: 20px;
+}
+
+.btn-delete-perfil:hover {
+  background-color: #AD2E1B;
+}
+
+.title-perfil{
+  color: #3F4596;
+  text-align: center;
+}
+
+/* .parentLogin {
+  position: relative;
+  width:100%;
+  height:200px;
+} */
+
+/* .childPerfil {
+  margin-left: 30vh;
+  margin-right: 30vh;
+  margin-top: 10vh;
+  max-height: 85vh;
+  background-color: #f0f2f5;
+  border-radius: 15px;
+} */
+
+.elementPerfil {
+  margin-bottom: 10px;
+}
+
+.logoPerfil {
+  height: 50px;
+  margin-bottom: 30px;
+}
+
+.form-perfil {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-control-placeholder {
+  position: absolute;
+  top: 0;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 0.8;
+}
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 100%;
+  transform: translate3d(0, -110%, 0);
+  opacity: 1;
+}
+
+/* .btn-color{
+  background-color: #f53d29 !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.titleColor{
+  color: #f53d29;
+} */

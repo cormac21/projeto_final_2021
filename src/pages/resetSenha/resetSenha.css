@@ -1,0 +1,53 @@
+.resetSenha {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.childResetSenha {
+  margin-left: 33vh;
+  margin-right: 33vh;
+  margin-top: 10vh;
+  max-height: 85vh;
+
+  background-color: white;
+
+  border-radius: 15px;
+  border: solid;
+  border-width: thin;
+}
+
+.contentResetSenha {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+  max-height: 80vh;
+}
+
+.btn-resetSenha{
+  background-color: #9CC44C ;
+  color: white !important;
+  border-color: transparent !important;
+  width: 50%;
+}
+
+.btn-resetSenha:hover {
+  background-color: #6A8534;
+}
+
+.titleResetSenha{
+  color: #3F4596;
+  text-align: center;
+}
+
+.form-resetSenha {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 100%;
+  transform: translate3d(0, -110%, 0);
+  opacity: 1;
+}
