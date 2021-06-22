@@ -25,7 +25,7 @@ export default function SeletorDeCategoria(props) {
     function setarValorSelecionado() {
         if (categoriaSelecionada != undefined) {
             let value = lista.filter((item) => item.id === categoriaSelecionada)[0]
-            valorSelecionado: value.id
+            valorSelecionado = value.id
         }
     }
 
