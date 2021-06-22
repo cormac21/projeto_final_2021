@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import firebase from '../../conexaodb.js';
+import firebase from '../../firebase.js';
 //import {Link} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 //import Button from 'react-bootstrap/Button'

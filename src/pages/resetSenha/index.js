@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Helmet} from "react-helmet";
-import firebase from '../../conexaodb'
+import firebase from '../../firebase'
 import './resetSenha.css';
 import {Alert, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";

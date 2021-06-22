@@ -1,5 +1,5 @@
 import { useState } from "react";
-import firebase from '../conexaodb';
+import firebase from '../firebase';
 
 export default function SeletorDeCategoria(props) {
 

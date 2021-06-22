@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import firebase from '../../../conexaodb.js';
+import firebase from '../../../firebase.js';
 import {Helmet} from "react-helmet";
 //import Footer from "../../../Footer";
 import '../publicacoes/publicacoes.css';

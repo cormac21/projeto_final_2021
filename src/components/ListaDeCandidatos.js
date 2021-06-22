@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import firebase from '../conexaodb'
+import firebase from '../firebase'
 import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
 
 export default function ListaDeCandidatos(props) {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import firebase from '../../../conexaodb.js';
+import firebase from '../../../firebase.js';
 //import {Link, Redirect} from 'react-router-dom';
 import '../publicacoes/publicacoes.css';
 import {Helmet} from 'react-helmet';

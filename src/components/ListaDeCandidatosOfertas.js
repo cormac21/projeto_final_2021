@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import firebase from '../conexaodb'
+import firebase from '../firebase'
 
 class ListaDeCandidatosOfertas extends Component {
 

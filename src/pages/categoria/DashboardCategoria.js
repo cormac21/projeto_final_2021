@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import firebase from '../../conexaodb'
+import firebase from '../../firebase'
 import {Helmet} from 'react-helmet';
 import Footer from "../../Footer";
 import {forEach} from "react-bootstrap/ElementChildren";

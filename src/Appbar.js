@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
-import firebase from './conexaodb'
+import firebase from './firebase'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import './Appbar.css'
 import LogoutButton from "./LogoutButton"

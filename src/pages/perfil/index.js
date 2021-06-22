@@ -1,7 +1,7 @@
 import React, { useRef, Component } from 'react';
 import './perfil.css';
 //import {Link} from 'react-router-dom';
-import firebase from '../../conexaodb.js'
+import firebase from '../../firebase.js'
 //import {Card, Container, Form, FormLabel, Image, FormGroup, FormControl} from "react-bootstrap";
 import { Helmet } from 'react-helmet';
 import {useHistory} from "react-router-dom";

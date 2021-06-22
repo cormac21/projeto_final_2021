@@ -1,6 +1,6 @@
 import DropdownItem from "react-bootstrap/DropdownItem";
 import React from "react";
-import firebase from "./conexaodb";
+import firebase from "./firebase";
 import {useHistory} from "react-router-dom";
 
 export default function LogoutButton(props) {

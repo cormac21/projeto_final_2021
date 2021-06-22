@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 //import logo from '../../img/logo.png';
 import './login.css';
 import {Link} from 'react-router-dom';
-import firebase from '../../conexaodb.js';
+import firebase from '../../firebase.js';
 import { Helmet } from 'react-helmet';
 //import FacebookLogin from "react-facebook-login";
 //import 'bootstrap/dist/css/bootstrap.min.css';
