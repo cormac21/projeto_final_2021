@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
-import {Container} from 'react-bootstrap'
 
 import Login from './pages/login'
-import Cadastro from './pages/cadastro'
 import Dashboard from './pages/dashboard'
 import Publicacoes from './pages/aprendizado/publicacoes'
 import NovaPublicacao from './pages/aprendizado/novaPublicacao'
@@ -21,6 +19,7 @@ import OferertasAjuda from "./pages/aprendizado/ofertasAjuda";
 import EditarPublicacao from "./pages/aprendizado/editarPublicacao";
 import EditarOfertas from "./pages/aprendizado/editarOferta";
 import {AuthProvider} from "./contexto/AuthContext";
+import PaginaDeCadastroUsuario from "./pages/cadastro";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -30,7 +29,7 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={Login}/>
                 <Route exact path="/categorias" component={DashboardCategoria}/>
-                <Route exact path="/cadastro" component={Cadastro}/>
+                <Route exact path="/cadastro" component={PaginaDeCadastroUsuario}/>
                 <Route exact path="/resetSenha" component={ResetSenha}/>
                 <Route exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/publicacoes" component={Publicacoes}/>
