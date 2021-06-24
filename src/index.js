@@ -27,7 +27,7 @@ ReactDOM.render(
             <Appbar></Appbar>
 
             <Switch>
-                <Route exact path="/" component={Login}/>
+                <Route exact path="/login" component={Login}/>
                 <Route exact path="/categorias" component={DashboardCategoria}/>
                 <Route exact path="/cadastro" component={PaginaDeCadastroUsuario}/>
                 <Route exact path="/resetSenha" component={ResetSenha}/>

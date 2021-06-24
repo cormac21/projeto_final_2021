@@ -5,6 +5,7 @@ import firebase from '../../firebase'
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {useHistory} from "react-router-dom";
 
 export default function PaginaDeCadastroUsuario(props) {
 
@@ -15,8 +16,10 @@ export default function PaginaDeCadastroUsuario(props) {
     const { signup } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const [startDate, setStartDate] = useState(new Date());
+    const [message, setMessage] = useState("")
+    const [startDate, setStartDate] = useState("");
     const usersDb = firebase.firestore().collection('users')
+    let history = useHistory()
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -33,11 +36,22 @@ export default function PaginaDeCadastroUsuario(props) {
             await usersDb.add({
                 email: emailRef.current.value,
                 username: usernameRef.current.value,
-                birthDate: startDate
+                birthDate: startDate,
+                createdDate: new Date()
             })
+            setLoading(false)
+            setMessage("Conta criada com sucesso!")
+            history.replace("/")
         } catch(e) {
-            console.log(e)
-            setError("Falha ao tentar criar uma conta!")
+            setLoading(false)
+            if( e.code == 'auth/invalid-email') {
+                setError("Falha ao criar uma conta: Endereço de email inválido!")
+            } else if (e.code == 'auth/email-already-in-use') {
+                setError("Falha ao criar uma conta: Endereço de email inválido!")
+            } else if (e.code == 'auth/auth/weak-password') {
+                setError("Falha ao criar uma conta: Senha fraca!")
+            }
+
         }
 
     }
@@ -49,6 +63,7 @@ export default function PaginaDeCadastroUsuario(props) {
                     <Card.Body>
                         <h2 className="text-center mb-4">Cadastre-se</h2>
                         {error && <Alert variant="danger">{error}</Alert> }
+                        {message && <Alert variant="success">{message}</Alert> }
                         <Form onSubmit={handleSubmit}>
                             <Form.Group id="username">
                                 <Form.Label> Nome de Usuário: </Form.Label>
