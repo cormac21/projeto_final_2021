@@ -12,7 +12,6 @@ export default function PaginaDeCadastroUsuario(props) {
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
     const usernameRef = useRef()
-    const birthdayRef = useRef()
     const { signup } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -34,9 +33,10 @@ export default function PaginaDeCadastroUsuario(props) {
             await usersDb.add({
                 email: emailRef.current.value,
                 username: usernameRef.current.value,
-                birthDate: birthdayRef.current.value
+                birthDate: startDate
             })
-        } catch {
+        } catch(e) {
+            console.log(e)
             setError("Falha ao tentar criar uma conta!")
         }
 
@@ -56,7 +56,14 @@ export default function PaginaDeCadastroUsuario(props) {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label> Data de nascimento: </Form.Label>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} ref={birthdayRef} />
+                                <br/>
+                                <DatePicker selected={startDate}
+                                            onChange={(date) => setStartDate(date)}
+                                            peekNextMonth
+                                            showMonthDropdown
+                                            showYearDropdown
+                                            dropdownMode="select"
+                                            dateFormat="yyyy/MM/dd" />
                             </Form.Group>
                             <Form.Group id="email">
                                 <Form.Label> Email: </Form.Label>
