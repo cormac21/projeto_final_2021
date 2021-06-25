@@ -1,0 +1,59 @@
+import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
+import {useRef, useState} from "react";
+import { useAuth } from '../../contexto/AuthContext'
+import firebase from '../../firebase'
+import {Link, useHistory } from "react-router-dom";
+
+export default function PaginaDeLogin(props) {
+
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const { login } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState("")
+  let history = useHistory()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    try {
+      setError("")
+      setLoading(true)
+      await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/")
+    } catch (e) {
+      setError("Erro ao fazer o login do usuário!")
+      setLoading(false)
+    }
+
+  }
+
+  return (
+      <Container className="d-flex align-items-center justify-content-center" style={{minHeight: "100vh"}}>
+        <div className="w-100" style={{maxWidth: "400px"}}>
+          <Card>
+            <Card.Body>
+              <h2 className="text-center mb-4">Cadastre-se</h2>
+              {error && <Alert variant="danger">{error}</Alert> }
+              {message && <Alert variant="success">{message}</Alert> }
+              <Form onSubmit={handleSubmit}>
+                <Form.Group id="email">
+                  <Form.Label> Email: </Form.Label>
+                  <Form.Control type="email" ref={emailRef} required></Form.Control>
+                </Form.Group>
+                <Form.Group id="password">
+                  <Form.Label> Password: </Form.Label>
+                  <Form.Control type="password" ref={passwordRef} required></Form.Control>
+                </Form.Group>
+                <Button className="w-100" type="submit" disabled={loading}>Login</Button>
+              </Form>
+            </Card.Body>
+          </Card>
+          <div className="w-100 text-center mt-2">
+            Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
+          </div>
+        </div>
+      </Container>
+  )
+}

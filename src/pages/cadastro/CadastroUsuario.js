@@ -3,9 +3,9 @@ import {useRef, useState} from "react";
 import { useAuth } from '../../contexto/AuthContext'
 import firebase from '../../firebase'
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import {useHistory} from "react-router-dom";
+import { Link } from "react-router-dom"
 
 export default function PaginaDeCadastroUsuario(props) {
 
@@ -97,7 +97,7 @@ export default function PaginaDeCadastroUsuario(props) {
                     </Card.Body>
                 </Card>
                 <div className="w-100 text-center mt-2">
-                    Já tem uma conta? Login
+                    Já tem uma conta? <Link to="/login">Login</Link>Login
                 </div>
             </div>
         </Container>

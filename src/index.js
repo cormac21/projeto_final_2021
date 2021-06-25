@@ -4,7 +4,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 
-import Login from './pages/login'
+import Login from './pages/login/Login'
 import Dashboard from './pages/dashboard'
 import Publicacoes from './pages/aprendizado/publicacoes'
 import NovaPublicacao from './pages/aprendizado/novaPublicacao'
@@ -19,7 +19,8 @@ import OferertasAjuda from "./pages/aprendizado/ofertasAjuda";
 import EditarPublicacao from "./pages/aprendizado/editarPublicacao";
 import EditarOfertas from "./pages/aprendizado/editarOferta";
 import {AuthProvider} from "./contexto/AuthContext";
-import PaginaDeCadastroUsuario from "./pages/cadastro";
+import PaginaDeCadastroUsuario from "./pages/cadastro/CadastroUsuario";
+import PaginaDeLogin from "./pages/login/Login";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -27,7 +28,7 @@ ReactDOM.render(
             <Appbar></Appbar>
 
             <Switch>
-                <Route exact path="/login" component={Login}/>
+                <Route exact path="/login" component={PaginaDeLogin}/>
                 <Route exact path="/categorias" component={DashboardCategoria}/>
                 <Route exact path="/cadastro" component={PaginaDeCadastroUsuario}/>
                 <Route exact path="/resetSenha" component={ResetSenha}/>
