@@ -34,7 +34,7 @@ export default function PaginaDeLogin(props) {
         <div className="w-100" style={{maxWidth: "400px"}}>
           <Card>
             <Card.Body>
-              <h2 className="text-center mb-4">Cadastre-se</h2>
+              <h2 className="text-center mb-4">Login</h2>
               {error && <Alert variant="danger">{error}</Alert> }
               {message && <Alert variant="success">{message}</Alert> }
               <Form onSubmit={handleSubmit}>
@@ -43,7 +43,7 @@ export default function PaginaDeLogin(props) {
                   <Form.Control type="email" ref={emailRef} required></Form.Control>
                 </Form.Group>
                 <Form.Group id="password">
-                  <Form.Label> Password: </Form.Label>
+                  <Form.Label> Senha: </Form.Label>
                   <Form.Control type="password" ref={passwordRef} required></Form.Control>
                 </Form.Group>
                 <Button className="w-100" type="submit" disabled={loading}>Login</Button>
