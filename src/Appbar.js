@@ -5,24 +5,25 @@ import Button from 'react-bootstrap/Button'
 import firebase from './firebase'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import './Appbar.css'
-import LogoutButton from "./components/LogoutButton"
 import profile from './profile.png'
 import {useAuth} from "./contexto/AuthContext";
+import DropdownItem from "react-bootstrap/DropdownItem";
+import {useHistory} from "react-router-dom";
 
 export default function Appbar(props) {
 
-    const [user, setUser] = useState("")
     const [username, setUsername] = useState("")
-    const [loading, setLoading] = useState(false)
     const { currentUser } = useAuth()
+    const { logout } = useAuth()
+    const history = useHistory()
 
-    getUserData()
+    if ( currentUser ) {
+        getUserData()
+    }
 
     async function getUserData() {
         try {
-            setLoading(true)
             const doc = await firebase.firestore().collection('users').where('email', '==', currentUser.email).get()
-            setLoading(false)
             if (doc.exists) {
                 console.log("Document data: ", doc.data());
                 setUsername(doc.data().username)
@@ -34,11 +35,17 @@ export default function Appbar(props) {
         }
     }
 
-    function handleCallback() {
-        setUser(null)
+    function logoutUser(e) {
+        e.preventDefault();
+        try {
+            logout()
+            history.push( "/login")
+        } catch (e) {
+            alert(e.message)
+        }
     }
 
-    if (user) {
+    if (currentUser) {
         return (
             <Navbar expand="lg" className="navbar-in sticky-nav">
                 <div className="container">
@@ -99,7 +106,7 @@ export default function Appbar(props) {
                             <NavDropdown.Item href="/perfil" className="dropdown-color"> Perfil </NavDropdown.Item>
                             <NavDropdown.Divider/>
                             {/* <NavDropdown.Item href="/#" className="dropdown-color"> Portal de Currículos </NavDropdown.Item> */}
-                            <LogoutButton callback={handleCallback}/>
+                            <DropdownItem className="dropdown-color" onClick={logoutUser}> Sair </DropdownItem>
                         </NavDropdown>
                     </Navbar.Collapse>
                 </div>
