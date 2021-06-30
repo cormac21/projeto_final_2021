@@ -13,22 +13,25 @@ import {useHistory} from "react-router-dom";
 export default function Appbar(props) {
 
     const [username, setUsername] = useState("")
-    const { currentUser } = useAuth()
-    const { logout } = useAuth()
+    const {currentUser} = useAuth()
+    const {logout} = useAuth()
     const history = useHistory()
 
-    if ( currentUser ) {
+    if (currentUser) {
         getUserData()
     }
 
     async function getUserData() {
         try {
-            const doc = await firebase.firestore().collection('users').where('email', '==', currentUser.email).get()
-            if (doc.exists) {
-                console.log("Document data: ", doc.data());
-                setUsername(doc.data().username)
+            const usersRef = await firebase.firestore().collection('users')
+            const querySnapshot = await usersRef.where('email', '==', currentUser.email).get()
+            if ( querySnapshot.empty ){
+                console.log("No matching documents!")
+                return;
             } else {
-                console.log("No data found for query!")
+                querySnapshot.forEach( doc => {
+                    setUsername(doc.data().username)
+                })
             }
         } catch (e) {
             console.log(e)
@@ -39,7 +42,7 @@ export default function Appbar(props) {
         e.preventDefault();
         try {
             logout()
-            history.push( "/login")
+            history.push("/login")
         } catch (e) {
             alert(e.message)
         }
