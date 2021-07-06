@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {useHistory} from "react-router-dom";
 import { Link } from "react-router-dom"
 
-export default function PaginaDeCadastroUsuario(props) {
+export default function Signup(props) {
 
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -51,9 +51,7 @@ export default function PaginaDeCadastroUsuario(props) {
             } else if (e.code == 'auth/auth/weak-password') {
                 setError("Falha ao criar uma conta: Senha fraca!")
             }
-
         }
-
     }
 
     return (
@@ -97,7 +95,7 @@ export default function PaginaDeCadastroUsuario(props) {
                     </Card.Body>
                 </Card>
                 <div className="w-100 text-center mt-2">
-                    Já tem uma conta? <Link to="/login">Login</Link>Login
+                    Já tem uma conta? <Link to="/login">Login</Link>
                 </div>
             </div>
         </Container>

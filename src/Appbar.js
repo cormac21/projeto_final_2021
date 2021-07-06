@@ -26,7 +26,7 @@ export default function Appbar(props) {
             const usersRef = await firebase.firestore().collection('users')
             const querySnapshot = await usersRef.where('email', '==', currentUser.email).get()
             if ( querySnapshot.empty ){
-                console.log("No matching documents!")
+                console.log("Não encontrei usuários com este email!")
                 return;
             } else {
                 querySnapshot.forEach( doc => {

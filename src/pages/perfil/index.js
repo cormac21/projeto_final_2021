@@ -1,80 +1,24 @@
 import React, { useRef, Component } from 'react';
 import './perfil.css';
-//import {Link} from 'react-router-dom';
 import firebase from '../../firebase.js'
-//import {Card, Container, Form, FormLabel, Image, FormGroup, FormControl} from "react-bootstrap";
 import { Helmet } from 'react-helmet';
 import {useHistory} from "react-router-dom";
 
 
-class Perfil extends Component {
+export default function UpdateProfile() {
 
-  constructor(props) {
-    super(props);
+  const [loading, setLoading] = useState(false)
+  const username = useRef()
+  const [email, setEmail] = useState("")
+  const [profilePicture, setProfilePicture] = useState()
+  const [dateOfBirth, setDateOfBirth] = useState()
+  const { currentUser } = useAuth()
+  const usersRef = firebase.firestore().collection('users').where('email', '==', currentUser.email).get()
 
-    this.state = {
-      user: null,
-      loading: true,
-      nome: props.nome,
-      usuario: props.usuario,
-      email: '',
-      senha: '',
-      imagem: null,
-      idade: ''
-      //url: ''
-    }
+  async function updateProfile() {
 
-    //this.salvarModificacoes = this.salvarModificacoes.bind(this);
-
-    this.atualizarPefil = this.atualizarPefil.bind(this);
-    //this.deletarUsuario = this.deletarUsuario.bind(this);
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user: user });
-        firebase.database().ref('usuarios').child(user.uid).on('value', (snapshot) => {
-          this.setState({
-            loading: false, usuario: snapshot.val().usuario, nome: snapshot.val().nome,
-            email: snapshot.val().email, idade: snapshot.val().idade, fotoPerfil: snapshot.val().fotoPerfil
-          })
-        });
-      }
-    });
-
-    
   }
 
-  // Funções
-
-  atualizarPefil(e) {
-    let userRef = firebase.database().ref('usuarios/' + this.state.user.uid);
-
-    userRef.update({
-      nome: this.state.nome,
-      usuario: this.state.usuario,
-    }, () => {
-      alert("Perfil editado.");
-      this.props.history.replace("/dashboard");
-    })    
-    e.preventDefault();
-  }
-
-  /*
-  deletarUsuario(e) {
-    //let userRef = firebase.database().ref('usuarios/' + this.state.user.uid);
-    //userRef.remove();
-    let userRefAuth = firebase.database().ref('usuarios/' + this.state.user.id);
-    userRefAuth.delete();
-
-    e.preventDefault();
-
-    alert('Usuário deletado');
-    
-    this.props.history.replace("/");
-    //logout();
-  } */
-
-  render() {
     return (
       <div>
         {/* Título da página */}
@@ -163,23 +107,4 @@ class Perfil extends Component {
         </div>
       </div>
     )
-  }
-}
-
-export default Perfil;
-
-function logout(props){
-  //let history = useHistory()
-  const callback = props.callback;
-
-  firebase.auth().signOut().then(() => {
-    
-    //history.push( "/", {update: true})
-    callback("logout");
-    // e.preventDefault();
-    }).catch ((error) => {
-    // alert ("Não consegui dar logout!")
-    alert(error.message)
-  })
-
 }

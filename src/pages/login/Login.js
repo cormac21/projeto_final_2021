@@ -1,10 +1,9 @@
 import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
 import {useRef, useState} from "react";
 import { useAuth } from '../../contexto/AuthContext'
-import firebase from '../../firebase'
 import {Link, useHistory } from "react-router-dom";
 
-export default function PaginaDeLogin(props) {
+export default function LoginPage(props) {
 
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -48,6 +47,9 @@ export default function PaginaDeLogin(props) {
                 </Form.Group>
                 <Button className="w-100" type="submit" disabled={loading}>Login</Button>
               </Form>
+              <div className="w-100 text-center mt-3" >
+                <Link to="/forgot-password" > Forgot password?</Link>
+              </div>
             </Card.Body>
           </Card>
           <div className="w-100 text-center mt-2">

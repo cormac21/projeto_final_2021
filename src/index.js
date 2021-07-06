@@ -12,15 +12,15 @@ import MinhasPublicacoes from './pages/aprendizado/minhasPublicacoes'
 import MinhasOfertas from './pages/aprendizado/minhasOfertas'
 import DashboardCategoria from "./pages/categoria/DashboardCategoria";
 import Perfil from './pages/perfil'
-import ResetSenha from "./pages/resetSenha";
+import ResetSenha from "./pages/resetSenha/PasswordReset";
 import Appbar from "./Appbar";
 import OferecerAjuda from "./pages/aprendizado/oferecerAjuda";
 import OferertasAjuda from "./pages/aprendizado/ofertasAjuda";
 import EditarPublicacao from "./pages/aprendizado/editarPublicacao";
 import EditarOfertas from "./pages/aprendizado/editarOferta";
 import {AuthProvider} from "./contexto/AuthContext";
-import PaginaDeCadastroUsuario from "./pages/cadastro/CadastroUsuario";
-import PaginaDeLogin from "./pages/login/Login";
+import Signup from "./pages/cadastro/CadastroUsuario";
+import LoginPage from "./pages/login/Login";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -28,10 +28,10 @@ ReactDOM.render(
             <Appbar></Appbar>
 
             <Switch>
-                <Route exact path="/login" component={PaginaDeLogin}/>
+                <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/categorias" component={DashboardCategoria}/>
-                <Route exact path="/cadastro" component={PaginaDeCadastroUsuario}/>
-                <Route exact path="/resetSenha" component={ResetSenha}/>
+                <Route exact path="/cadastro" component={Signup}/>
+                <Route exact path="/forgot-password" component={ResetSenha}/>
                 <Route exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/publicacoes" component={Publicacoes}/>
                 <Route exact path="/perfil" component={Perfil}/>
