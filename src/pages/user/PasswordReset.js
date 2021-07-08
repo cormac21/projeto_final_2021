@@ -1,14 +1,12 @@
-import React, {Component, useRef, useState} from 'react'
-import './resetSenha.css';
+import React, { useRef, useState} from 'react'
 import {Alert, Form, Card, Container} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useAuth} from "../../contexto/AuthContext";
 
 export default function PasswordReset() {
 
     const emailRef = useRef()
-    const [user, setUser] = useState()
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
