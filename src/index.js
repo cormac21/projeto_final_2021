@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Route, Switch, BrowserRouter} from 'react-router-dom';
+import { BrowserRouter} from 'react-router-dom';
 
 import Dashboard from './pages/dashboard'
 import Publicacoes from './pages/aprendizado/publicacoes'
@@ -21,6 +21,8 @@ import Signup from "./pages/user/Signup";
 import LoginPage from "./pages/user/Login";
 import UserProfile from "./pages/user/UserProfile";
 import ChangePassword from "./pages/user/ChangePassword";
+import Switch from "react-router-dom/Switch";
+import Route from "react-router-dom/Route"
 
 ReactDOM.render(
     <BrowserRouter>
@@ -35,7 +37,7 @@ ReactDOM.render(
                 <Route exact path="/forgot-password" component={ResetSenha}/>
                 <Route exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/publicacoes" component={Publicacoes}/>
-                <Route exact path="/perfil" component={UserProfile}/>
+                <Route exact path="/userProfile" component={UserProfile}/>
                 <Route exact path="/novaPublicacao" component={NovaPublicacao}/>
                 <Route exact path="/ofertasAjuda" component={OferertasAjuda}/>
                 <Route exact path="/oferecerAjuda" component={OferecerAjuda}/>

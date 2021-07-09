@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react'
-import BotaoEditarPublicacao from '../components/BotaoEditarPublicacao'
+import BotaoEditarPublicacao from './EditPostButton'
 import ListaDeCandidatos from "./ListaDeCandidatos";
 import BotaoInscreverCandidatos from "./BotaoInscreverCandidatos";
 import ContextoDePublicacao from "../contexto/ContextoDePublicacao";

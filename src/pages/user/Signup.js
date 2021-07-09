@@ -44,11 +44,11 @@ export default function Signup(props) {
             history.replace("/")
         } catch(e) {
             setLoading(false)
-            if( e.code == 'auth/invalid-email') {
+            if( e.code === 'auth/invalid-email') {
                 setError("Falha ao criar uma conta: Endereço de email inválido!")
-            } else if (e.code == 'auth/email-already-in-use') {
+            } else if (e.code === 'auth/email-already-in-use') {
                 setError("Falha ao criar uma conta: Endereço de email inválido!")
-            } else if (e.code == 'auth/auth/weak-password') {
+            } else if (e.code === 'auth/auth/weak-password') {
                 setError("Falha ao criar uma conta: Senha fraca!")
             }
         }

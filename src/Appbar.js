@@ -106,7 +106,7 @@ export default function Appbar(props) {
                                 <text> {username} </text>
                             </div>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/perfil" className="dropdown-color"> Perfil </NavDropdown.Item>
+                            <NavDropdown.Item href="/userProfile" className="dropdown-color"> Perfil </NavDropdown.Item>
                             <NavDropdown.Divider/>
                             {/* <NavDropdown.Item href="/#" className="dropdown-color"> Portal de Currículos </NavDropdown.Item> */}
                             <DropdownItem className="dropdown-color" onClick={logoutUser}> Sair </DropdownItem>
