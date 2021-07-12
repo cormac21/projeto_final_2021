@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import firebase from '../../firebase.js'
 import {useAuth} from "../../contexto/AuthContext";
-import {Alert, Button, Card, Container, Form} from "react-bootstrap";
+import {Alert, Button, Card, Container, Form, FormLabel} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import {useHistory} from "react-router-dom";
 
@@ -17,6 +17,7 @@ export default function UserProfile() {
     const history = useHistory()
     const [username, setUsername] = useState("")
     const usernameRef = useRef()
+    const datePickerRef = useRef()
 
     if (currentUser) {
         getUserDetails()
@@ -32,8 +33,8 @@ export default function UserProfile() {
             } else {
                 querySnapshot.forEach(doc => {
                     setUsername(doc.data().username)
-                    setProfilePicture(doc().data().profilePicture)
-                    setDateOfBirth(doc().data().birthDate)
+                    setDateOfBirth(doc.data().birthDate.toDate())
+                    //setProfilePicture(doc().data().profilePicture)
                 })
             }
         } catch (e) {
@@ -58,20 +59,20 @@ export default function UserProfile() {
                         {error && <Alert variant="danger">{error}</Alert>}
                         {message && <Alert variant="success">{message}</Alert>}
                         <Form onSubmit={updateProfile}>
+                            <FormLabel> Seu email: {email}</FormLabel>
                             <Form.Group id="username">
                                 <Form.Label> Nome de Usuário: </Form.Label>
-                                <Form.Control type="text" ref={usernameRef}></Form.Control>
+                                <Form.Control type="text" ref={usernameRef} defaultValue={username}></Form.Control>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label> Data de nascimento: </Form.Label>
                                 <br/>
                                 <DatePicker selected={dateOfBirth}
                                             onChange={(date) => setDateOfBirth(date)}
-                                            peekNextMonth
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
-                                            dateFormat="yyyy/MM/dd"/>
+                                            dateFormat="yyyy/MM/dd" />
                             </Form.Group>
 
                             <Button className="w-100" type="submit" disabled={loading}>Editar</Button>
