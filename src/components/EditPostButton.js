@@ -4,17 +4,17 @@ import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
 
 export default function EditPostButton() {
 
-    const publicacao = useContext(ContextoDePublicacao)
-    const publicacaoId = useState(publicacao.id)
-    const categoria = useState(publicacao.categoria)
-    const ehDono = useState(publicacao.ehDono)
+    const post = useContext(ContextoDePublicacao)
+    const postId = useState(post.id)
+    const category = useState(post.categoria)
+    const isOwner = useState(post.ehDono)
     let history = useHistory()
 
     function editPostRedirect() {
-        history.push("/editarPublicacao/" + publicacaoId + "?categoria=" + categoria)
+        history.push("/editarPublicacao/" + postId + "?categoria=" + category)
     }
 
-    if (ehDono) {
+    if (isOwner) {
         return <div style={{alignContent: "center"}}>
             <button
                 onClick={editPostRedirect}> Editar

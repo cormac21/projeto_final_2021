@@ -1,6 +1,6 @@
 import {Component} from 'react'
 import firebase from '../firebase'
-import BotaoEditarOfertas from '../components/BotaoEditarOferta'
+import BotaoEditarOfertas from './EditOfferButton'
 import ListaDeCandidatosOfertas from "./ListaDeCandidatosOfertas";
 import BotaoInscreverCandidatosOferta from "./BotaoInscreverCandidatoOferta";
 

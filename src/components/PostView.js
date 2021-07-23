@@ -1,10 +1,10 @@
 import {useContext, useState} from 'react'
-import BotaoEditarPublicacao from './EditPostButton'
-import ListaDeCandidatos from "./ListaDeCandidatos";
-import BotaoInscreverCandidatos from "./BotaoInscreverCandidatos";
+import EditPostButton from './EditPostButton'
+import CandidateList from "./CandidateList";
+import SignUpCandidateForPostButton from "./SignUpCandidateForPostButton";
 import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
 
-export default function PublicacaoView(props) {
+export default function PostView(props) {
 
     const publicacao = useContext(ContextoDePublicacao)
     const [publicacaoId, setPublicacaoId] = useState(publicacao.id)
@@ -39,10 +39,10 @@ export default function PublicacaoView(props) {
                     </div>
                     <br/>
 
-                    <BotaoInscreverCandidatos/>
-                    <BotaoEditarPublicacao/>
+                    <SignUpCandidateForPostButton/>
+                    <EditPostButton/>
                     <hr/>
-                    <ListaDeCandidatos/>
+                    <CandidateList/>
                 </div>
                 <br/>
             </div>

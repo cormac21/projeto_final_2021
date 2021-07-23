@@ -2,13 +2,13 @@ import {useContext, useState} from "react";
 import firebase from '../firebase'
 import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
 
-export default function BotaoInscreverCandidatos(props) {
+export default function SignUpCandidateForPostButton(props) {
 
     const [user, setUser] = useState(null)
-    const publicacao = useContext(ContextoDePublicacao)
-    const [publicacaoId, setPublicacaoId] = useState(publicacao.id)
-    const [ehDono, setEhDono] = useState(publicacao.ehDono)
-    const refPublicacao = firebase.database().ref("publicacao/" + publicacaoId);
+    const post = useContext(ContextoDePublicacao)
+    const [postId, setPostId] = useState(post.id)
+    const [isOwner, setIsOwner] = useState(post.ehDono)
+    const refPosts = firebase.database().ref("publicacao/" + postId);
 
     firebase.auth().onAuthStateChanged((usuario) => {
         if (usuario) {
@@ -17,14 +17,14 @@ export default function BotaoInscreverCandidatos(props) {
     });
 
     function handleOnClick() {
-        refPublicacao.child('candidatos').push({
+        refPosts.child('candidatos').push({
             usuario: user.uid
         }).then(
             alert("Candidatura concluída com sucesso!")
         ).catch()
     }
 
-    if (!ehDono) {
+    if (!isOwner) {
         return (
             <div className="input-group" style={{justifyContent: "center"}}>
                 <button className="btn btn-help" onClick={handleOnClick}> Ajudar</button>

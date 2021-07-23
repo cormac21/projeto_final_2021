@@ -4,9 +4,9 @@ import firebase from '../../../firebase.js';
 import './publicacoes.css';
 import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
-import SeletorDeCategoria from "../../../components/SeletorDeCategoria";
-import BotaoInscreverCandidatos from "../../../components/BotaoInscreverCandidatos"
-import PublicacaoView from "../../../components/PublicacaoView";
+import SeletorDeCategoria from "../../../components/CategorySelector";
+import BotaoInscreverCandidatos from "../../../components/SignUpCandidateForPostButton"
+import PostView from "../../../components/PostView";
 
 class Publicacoes extends Component {
 
@@ -203,8 +203,8 @@ class Publicacoes extends Component {
                             ehDono = true;
                         }
                         return (
-                            <PublicacaoView publicacao={child} publicacaoCategoria={categoria.nome}
-                                            publicacaoUsuario={usuario.nome} ehDono={ehDono}></PublicacaoView>
+                            <PostView publicacao={child} publicacaoCategoria={categoria.nome}
+                                      publicacaoUsuario={usuario.nome} ehDono={ehDono}></PostView>
                         )
                     })}
 

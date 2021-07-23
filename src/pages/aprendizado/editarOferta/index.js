@@ -3,7 +3,7 @@ import firebase from '../../../firebase.js';
 import {Helmet} from "react-helmet";
 //import Footer from "../../../Footer";
 import '../publicacoes/publicacoes.css';
-import SeletorDeCategoria from "../../../components/SeletorDeCategoria";
+import SeletorDeCategoria from "../../../components/CategorySelector";
 import ListaDeCandidatosOfertas from "../../../components/ListaDeCandidatosOfertas";
 
 class EditarOfertas extends Component {

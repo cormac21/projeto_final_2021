@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import firebase from '../../../firebase.js';
 import '../publicacoes/publicacoes.css';
 import Footer from '../../../Footer'
-import SeletorDeCategoria from "../../../components/SeletorDeCategoria";
+import SeletorDeCategoria from "../../../components/CategorySelector";
 
 class oferecerAjuda extends Component {
   constructor(props){

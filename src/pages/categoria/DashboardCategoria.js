@@ -1,36 +1,34 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import firebase from '../../firebase'
-import {Helmet} from 'react-helmet';
 import Footer from "../../Footer";
-import {forEach} from "react-bootstrap/ElementChildren";
 
 export default function DashboardCategoria() {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
-    const nomeCategoria = useRef()
+    const categoryName = useRef()
 
-    var ref = firebase.database().ref('categorias');
+    var ref = firebase.firestore().collection("categories")
 
-    function adicionarCategoria() {
-        ref.push({
-            nome: nomeCategoria.current.value
-        })
+    async function addCategory() {
+        try {
+            await ref.add({
+                name: categoryName.current.value
+            })
+            alert("Category created successfully!")
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (
         <div className="page-container">
             <div>
-                <Helmet>
-                    <title>Categorias</title>
-                </Helmet>
                 <div className="p-2 bd-highlight content-wrap">
                     <h2 style={{color: "#f53d29", paddingTop: "1em", textAlign: "center"}}> Categorias </h2>
                     <div className="w-25">
                         <input type="text" placeholder="Nome da Categoria" autoFocus
-                               className="form-control form-control-lg" ref={nomeCategoria}/>
+                               className="form-control form-control-lg" ref={categoryName}/>
                     </div>
                     <div>
-                        <button onClick={adicionarCategoria}> Adicionar Categoria</button>
+                        <button onClick={addCategory}> Adicionar Categoria</button>
                     </div>
                 </div>
             </div>

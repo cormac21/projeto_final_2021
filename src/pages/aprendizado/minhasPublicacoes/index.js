@@ -4,8 +4,8 @@ import firebase from '../../../firebase.js';
 import '../publicacoes/publicacoes.css';
 import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
-import PublicacaoView from "../../../components/PublicacaoView"
-import BannerNenhumaPublicacao from "../../../components/BannerNenhumaPublicacao"
+import PostView from "../../../components/PostView"
+import BannerNenhumaPublicacao from "../../../components/NoPostsBanner"
 import ContextoDePublicacao from "../../../contexto/ContextoDePublicacao";
 
 
@@ -128,7 +128,7 @@ class MinhasPublicacoes extends Component {
                                 child.ehDono = ehDono;
                                 return (
                                     <ContextoDePublicacao.Provider value={child}>
-                                        <PublicacaoView/>
+                                        <PostView/>
                                     </ContextoDePublicacao.Provider>
                                 )
                             })}

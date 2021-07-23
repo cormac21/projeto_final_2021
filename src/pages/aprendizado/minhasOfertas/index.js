@@ -4,10 +4,10 @@ import firebase from '../../../firebase.js';
 import '../publicacoes/publicacoes.css';
 import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
-import ListaDeCandidatos from "../../../components/ListaDeCandidatos";
+import CandidateList from "../../../components/CandidateList";
 import EditarPublicacao from "../editarPublicacao";
 import OfertaView from "../../../components/OfertaView"
-import BannerNenhumaOferta from "../../../components/BannerNenhumaOferta"
+import BannerNenhumaOferta from "../../../components/NoOffersBanner"
 
 class MinhasOfertas extends Component {
 

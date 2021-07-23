@@ -2,10 +2,10 @@ import {useContext, useEffect, useState} from 'react'
 import firebase from '../firebase'
 import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
 
-export default function ListaDeCandidatos(props) {
+export default function CandidateList(props) {
 
     const publicacao = useContext(ContextoDePublicacao)
-    const [ehDono, setEhDono] = useState(publicacao.ehDono)
+    const [isOwner, setIsOwner] = useState(publicacao.ehDono)
     const [publicacaoId, setPublicacaoId] = useState(publicacao.id)
     let [loading, setLoading] = useState(false)
     let [error, setError] = useState(null)
@@ -16,7 +16,7 @@ export default function ListaDeCandidatos(props) {
     const refPublicacao = firebase.database().ref('publicacao')
     const refUsuarios = firebase.database().ref('usuarios')
 
-    if (ehDono && listaDeIdsCandidatos != false) {
+    if (isOwner && listaDeIdsCandidatos != false) {
         carregarCandidatosDePublicacao(publicacaoId);
     }
 
@@ -59,7 +59,7 @@ export default function ListaDeCandidatos(props) {
         }
     }
 
-    if (ehDono) {
+    if (isOwner) {
         if (listaDeCandidatos.length > 0) {
             return (
                 <div>

@@ -3,8 +3,8 @@ import firebase from '../../../firebase.js';
 import {Helmet} from "react-helmet";
 import Footer from "../../../Footer";
 import '../publicacoes/publicacoes.css';
-import SeletorDeCategoria from "../../../components/SeletorDeCategoria";
-import ListaDeCandidatos from "../../../components/ListaDeCandidatos";
+import SeletorDeCategoria from "../../../components/CategorySelector";
+import CandidateList from "../../../components/CandidateList";
 
 class EditarPublicacao extends Component {
 
@@ -106,8 +106,8 @@ class EditarPublicacao extends Component {
                             </div>
                         </div>
 
-                        <ListaDeCandidatos publicacaoId={this.state.idPublicacao}
-                                           ehDono={this.state.ehDono}></ListaDeCandidatos>
+                        <CandidateList publicacaoId={this.state.idPublicacao}
+                                       ehDono={this.state.ehDono}></CandidateList>
                         <br/>
                         <br/>
                         <button type="button" className="btn btn-block btn-novoPedido"

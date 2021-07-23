@@ -4,8 +4,8 @@ import firebase from '../../../firebase.js';
 import '../publicacoes/publicacoes.css';
 import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
-import SeletorDeCategoria from "../../../components/SeletorDeCategoria";
-import BotaoInscreverCandidatos from "../../../components/BotaoInscreverCandidatos"
+import SeletorDeCategoria from "../../../components/CategorySelector";
+import BotaoInscreverCandidatos from "../../../components/SignUpCandidateForPostButton"
 import OfertaView from "../../../components/OfertaView";
 
 class OfertasAjuda extends Component {
