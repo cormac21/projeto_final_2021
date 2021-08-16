@@ -23,15 +23,14 @@ export default function Appbar(props) {
 
     async function getUserData() {
         try {
-            const usersRef = await firebase.firestore().collection('users')
-            const querySnapshot = await usersRef.where('email', '==', currentUser.email).get()
-            if ( querySnapshot.empty ){
+            const userRef = await firebase.firestore().collection('users').doc(currentUser.uid);
+            const doc = await userRef.get();
+
+            if ( !doc.exists ){
                 console.log("Não encontrei usuários com este email!")
                 return;
             } else {
-                querySnapshot.forEach( doc => {
-                    setUsername(doc.data().username)
-                })
+                setUsername(doc.data().username);
             }
         } catch (e) {
             console.log(e)

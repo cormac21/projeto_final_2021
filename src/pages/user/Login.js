@@ -40,10 +40,12 @@ export default function LoginPage(props) {
                   <Form.Label> Email: </Form.Label>
                   <Form.Control type="email" ref={emailRef} required></Form.Control>
                 </Form.Group>
+                <br/>
                 <Form.Group id="password">
                   <Form.Label> Senha: </Form.Label>
                   <Form.Control type="password" ref={passwordRef} required></Form.Control>
                 </Form.Group>
+                <br/>
                 <Button className="w-100" type="submit" disabled={loading}>Login</Button>
               </Form>
               <div className="w-100 text-center mt-3" >

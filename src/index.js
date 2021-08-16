@@ -6,7 +6,6 @@ import { BrowserRouter} from 'react-router-dom';
 
 import Dashboard from './pages/dashboard'
 import Publicacoes from './pages/aprendizado/publicacoes'
-import NovaPublicacao from './pages/aprendizado/novaPublicacao'
 import MinhasPublicacoes from './pages/aprendizado/minhasPublicacoes'
 import MinhasOfertas from './pages/aprendizado/minhasOfertas'
 import DashboardCategoria from "./pages/categoria/DashboardCategoria";
@@ -23,6 +22,7 @@ import UserProfile from "./pages/user/UserProfile";
 import ChangePassword from "./pages/user/ChangePassword";
 import Switch from "react-router-dom/Switch";
 import Route from "react-router-dom/Route"
+import NewPost from "./pages/aprendizado/novaPublicacao/NewPost";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -38,7 +38,7 @@ ReactDOM.render(
                 <Route exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/publicacoes" component={Publicacoes}/>
                 <Route exact path="/userProfile" component={UserProfile}/>
-                <Route exact path="/novaPublicacao" component={NovaPublicacao}/>
+                <Route exact path="/novaPublicacao" component={NewPost}/>
                 <Route exact path="/ofertasAjuda" component={OferertasAjuda}/>
                 <Route exact path="/oferecerAjuda" component={OferecerAjuda}/>
                 <Route exact path="/minhasPublicacoes" component={MinhasPublicacoes}/>

@@ -32,8 +32,8 @@ export default function Signup(props) {
         try {
             setError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
-            await usersDb.add({
+            const signupResult = await signup(emailRef.current.value, passwordRef.current.value)
+            await usersDb.doc(signupResult.user.uid).set({
                 email: emailRef.current.value,
                 username: usernameRef.current.value,
                 birthDate: startDate,
@@ -50,6 +50,8 @@ export default function Signup(props) {
                 setError("Falha ao criar uma conta: Endereço de email inválido!")
             } else if (e.code === 'auth/auth/weak-password') {
                 setError("Falha ao criar uma conta: Senha fraca!")
+            } else {
+                setError("Ocorreu um erro na inserção do usuário na base de dados!")
             }
         }
     }
@@ -67,6 +69,7 @@ export default function Signup(props) {
                                 <Form.Label> Nome de Usuário: </Form.Label>
                                 <Form.Control type="text" ref={usernameRef} required></Form.Control>
                             </Form.Group>
+                            <br/>
                             <Form.Group>
                                 <Form.Label> Data de nascimento: </Form.Label>
                                 <br/>
@@ -78,18 +81,22 @@ export default function Signup(props) {
                                             dropdownMode="select"
                                             dateFormat="yyyy/MM/dd" />
                             </Form.Group>
+                            <br/>
                             <Form.Group id="email">
                                 <Form.Label> Email: </Form.Label>
                                 <Form.Control type="email" ref={emailRef} required></Form.Control>
                             </Form.Group>
+                            <br/>
                             <Form.Group id="password">
                                 <Form.Label> Password: </Form.Label>
                                 <Form.Control type="password" ref={passwordRef} required></Form.Control>
                             </Form.Group>
+                            <br/>
                             <Form.Group id="password">
                                 <Form.Label> Repita sua senha: </Form.Label>
                                 <Form.Control type="password" ref={passwordConfirmRef} required></Form.Control>
                             </Form.Group>
+                            <br/>
                             <Button className="w-100" type="submit" disabled={loading}>Cadastrar</Button>
                         </Form>
                     </Card.Body>

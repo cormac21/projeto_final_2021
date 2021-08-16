@@ -1,5 +1,6 @@
 import { useState } from "react";
 import firebase from '../firebase';
+import {Form} from 'react-bootstrap'
 
 export default function CategorySelector(props) {
 
@@ -12,40 +13,40 @@ export default function CategorySelector(props) {
     getCategories();
 
     async function getCategories() {
-        const snapshot = await categoriesRef.get();
-        snapshot.forEach(doc => {
-            list.push({
-                id: doc.key,
-                nome: doc.val().nome
+        try {
+            const snapshot = await categoriesRef.get();
+            snapshot.forEach(doc => {
+                list.push({
+                    id: doc.id,
+                    nome: doc.name
+                })
             })
-        })
-        setSelectedValueState()
-    }
-
-    function setSelectedValueState() {
-        if (selectedCategory != undefined) {
-            let value = list.filter((item) => item.id === selectedCategory)[0]
-            selectedValue = value.id
+            if( selectedCategory != undefined ) {
+                let value = list.filter((item) => item.id === selectedCategory)[0]
+                setSelectedValue(value.id)
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 
     function handleChange(event) {
-        name = event.target.options[event.target.selectedIndex].text
-        selectedValue = event.target.value
-        props.callback({id: event.target.value, nome: name})
+        setName(event.target.options[event.target.selectedIndex].text)
+        setSelectedValue(event.target.value)
+        props.callback({id: event.target.value})
         event.preventDefault()
     }
 
     return (
         <>
-            <select value={selectedValue} onChange={handleChange}>
+            <Form.Control as="select" value={selectedValue} onChange={handleChange}>
                 <option value=""></option>
                 {list.map((child) => {
                     return (
                         <option value={child.id}>{child.name}</option>
                     )
                 })}
-            </select>
+            </Form.Control>
         </>
     )
 }
