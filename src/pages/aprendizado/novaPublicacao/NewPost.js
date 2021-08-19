@@ -7,50 +7,55 @@ import CategorySelector from "../../../components/CategorySelector";
 
 export default function NewPost(props) {
 
-    const { currentUser } = useAuth();
-    const [name, setName] = useState("")
+    const {currentUser} = useAuth();
+    const [username, setUsername] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const titleRef = useRef()
     const descriptionRef = useRef()
     const [levelOfKnowledge, setLevelOfKnowledge] = useState("")
     const [category, setCategory] = useState("")
+    const usersRef = firebase.firestore().collection("users");
+    const postsRef = firebase.firestore().collection("posts");
     let history = useHistory()
 
-    try {
-        getUserDetails()
-    } catch (e) {
-        alert("Couldn't get User Details!")
-    }
+    getUserDetails()
 
     async function getUserDetails() {
-        const usersRef = firebase.firestore().collection("/users");
         try {
-            const userFromFirestore = await usersRef.doc(currentUser.uid).get();
-            const userObj = userFromFirestore.data();
+            const doc = await usersRef.doc(currentUser.uid).get();
+            if (!doc.exists) {
+                console.log("Não encontrei usuários com este email!")
+                return;
+            } else {
+                setUsername(doc.data().username);
+                setLoading(false)
+            }
         } catch (e) {
-
+            console.log(e)
         }
     }
 
-    async function handleSubmit() {
-        try {
-            await firebase.database().ref('posts').push({
-                user: currentUser,
-                title: titleRef,
-                description: descriptionRef,
-                levelOfKnowledge: levelOfKnowledge,
-                category: category,
-                createdOn: new Date().toISOString(),
-                candidates: false,
-                active: true
-            })
-            alert("Publicação salva");
-            history.replace("/publicacoes");
+    async function handleSubmit(event) {
+        event.preventDefault()
+        await postsRef.add({
+            user: username,
+            title: titleRef.current.value,
+            description: descriptionRef.current.value,
+            levelOfKnowledge: levelOfKnowledge,
+            category: category,
+            createdOn: new Date().toISOString(),
+            candidates: false,
+            active: true
+        }).then((snap) => {
+            alert("Publicação salva!")
+            history.push("/publicacoes")
             setLoading(false)
-        } catch (e) {
-
-        }
+        }).catch((er) => {
+                console.log(er)
+                setError("Deu ruim!")
+            }
+        )
     }
 
     function categorySelectorCallback(data) {
@@ -58,7 +63,7 @@ export default function NewPost(props) {
     }
 
     function handleKnowledgeChange(event) {
-        setLevelOfKnowledge(event.target.current.value)
+        setLevelOfKnowledge(event.target.options[event.target.selectedIndex].text)
     }
 
     return (
@@ -76,25 +81,25 @@ export default function NewPost(props) {
                                     <Form.Control type="text" ref={titleRef} required/>
                                 </Form.Group>
                                 <br/>
-                                <Form.Group>
+                                <Form.Group id="description">
                                     <Form.Label>Descrição</Form.Label>
                                     <Form.Control as="textarea" rows={3} ref={descriptionRef}/>
                                 </Form.Group>
                                 <br/>
-                                <Form.Group>
+                                <Form.Group id="levelOfKnowledge">
                                     <Form.Label>Nível de Conhecimento</Form.Label>
-                                    <Form.Control as="select">
+                                    <Form.Select value={levelOfKnowledge} onChange={handleKnowledgeChange}>
                                         <option value=""></option>
                                         <option value="Sem Conhecimento">Sem Conhecimento</option>
                                         <option value="Baixo">Baixo</option>
                                         <option value="Médio">Médio</option>
                                         <option value="Alto">Alto</option>
-                                    </Form.Control>
+                                    </Form.Select>
                                 </Form.Group>
                                 <br/>
-                                <Form.Group>
+                                <Form.Group id="category">
                                     <Form.Label>Categoria</Form.Label>
-                                    <CategorySelector />
+                                    <CategorySelector callback={categorySelectorCallback}/>
                                 </Form.Group>
                                 <br/>
                                 <Button className="w-100" type="submit" disabled={loading}>Novo Post</Button>

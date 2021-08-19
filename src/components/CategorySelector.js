@@ -6,24 +6,28 @@ export default function CategorySelector(props) {
 
     let [selectedValue, setSelectedValue] = useState("")
     const [selectedCategory, setSelectedCategory] = useState(props.categoriaSelecionada)
-    let [name, setName] = useState('')
-    let list = useState([])
+    let [list, setList] = useState([])
     const categoriesRef = firebase.firestore().collection("categories")
 
-    getCategories();
+    getCategories()
+    if( selectedCategory != undefined ) {
+        let value = list.filter((item) => item.id === selectedCategory)[0]
+        setSelectedValue(value.id)
+    }
 
     async function getCategories() {
         try {
-            const snapshot = await categoriesRef.get();
-            snapshot.forEach(doc => {
-                list.push({
-                    id: doc.id,
-                    nome: doc.name
+            if ( list.length == 0) {
+                await categoriesRef.get().then((snapshot) => {
+                    const temporaryList = []
+                    snapshot.forEach((doc) => {
+                        temporaryList.push({
+                            id: doc.id,
+                            name: doc.data().name
+                        })
+                    })
+                    setList(temporaryList)
                 })
-            })
-            if( selectedCategory != undefined ) {
-                let value = list.filter((item) => item.id === selectedCategory)[0]
-                setSelectedValue(value.id)
             }
         } catch (e) {
             console.log(e)
@@ -31,7 +35,6 @@ export default function CategorySelector(props) {
     }
 
     function handleChange(event) {
-        setName(event.target.options[event.target.selectedIndex].text)
         setSelectedValue(event.target.value)
         props.callback({id: event.target.value})
         event.preventDefault()
@@ -39,14 +42,14 @@ export default function CategorySelector(props) {
 
     return (
         <>
-            <Form.Control as="select" value={selectedValue} onChange={handleChange}>
+            <Form.Select value={selectedValue} onChange={handleChange}>
                 <option value=""></option>
-                {list.map((child) => {
+                {list.map((options) => {
                     return (
-                        <option value={child.id}>{child.name}</option>
+                        <option key={options.id} value={options.id}>{options.name}</option>
                     )
                 })}
-            </Form.Control>
+            </Form.Select>
         </>
     )
 }
