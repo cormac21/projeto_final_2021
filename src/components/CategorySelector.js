@@ -5,7 +5,7 @@ import {Form} from 'react-bootstrap'
 export default function CategorySelector(props) {
 
     let [selectedValue, setSelectedValue] = useState("")
-    const [selectedCategory, setSelectedCategory] = useState(props.categoriaSelecionada)
+    const [selectedCategory, setSelectedCategory] = useState(props.value)
     let [list, setList] = useState([])
     const categoriesRef = firebase.firestore().collection("categories")
 

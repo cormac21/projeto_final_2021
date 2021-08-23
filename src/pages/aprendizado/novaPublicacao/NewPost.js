@@ -9,6 +9,7 @@ export default function NewPost(props) {
 
     const {currentUser} = useAuth();
     const [username, setUsername] = useState("")
+    const [userLevelOfMaturity, setUserLevelOfMaturity] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const titleRef = useRef()
@@ -29,6 +30,7 @@ export default function NewPost(props) {
                 return;
             } else {
                 setUsername(doc.data().username);
+                setUserLevelOfMaturity(doc.data().levelOfMaturity)
                 setLoading(false)
             }
         } catch (e) {
@@ -45,6 +47,7 @@ export default function NewPost(props) {
             levelOfKnowledge: levelOfKnowledge,
             category: category,
             createdOn: new Date().toISOString(),
+            levelOfMaturity: userLevelOfMaturity,
             candidates: false,
             active: true
         }).then((snap) => {

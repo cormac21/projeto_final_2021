@@ -23,6 +23,8 @@ import ChangePassword from "./pages/user/ChangePassword";
 import Switch from "react-router-dom/Switch";
 import Route from "react-router-dom/Route"
 import NewPost from "./pages/aprendizado/novaPublicacao/NewPost";
+import GroupsListPage from "./pages/groups/GroupsListPage";
+import NewGroupPage from "./pages/groups/NewGroupPage";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -43,6 +45,8 @@ ReactDOM.render(
                 <Route exact path="/oferecerAjuda" component={OferecerAjuda}/>
                 <Route exact path="/minhasPublicacoes" component={MinhasPublicacoes}/>
                 <Route exact path="/minhasOfertas" component={MinhasOfertas}/>
+                <Route exact path="/groups" component={GroupsListPage}/>
+                <Route exact path="/newGroup" component={NewGroupPage}/>
                 <Route path="/editarOfertas/:id" component={EditarOfertas}/>
                 <Route path="/editarPublicacao/:id" component={EditarPublicacao}/>
             </Switch>

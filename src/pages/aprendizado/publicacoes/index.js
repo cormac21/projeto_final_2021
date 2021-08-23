@@ -1,6 +1,5 @@
 import { useState} from 'react';
 import firebase from '../../../firebase.js';
-import './publicacoes.css';
 import SeletorDeCategoria from "../../../components/CategorySelector";
 import {PostProvider} from "../../../contexto/PostContext";
 import PostView from "../../../components/PostView";

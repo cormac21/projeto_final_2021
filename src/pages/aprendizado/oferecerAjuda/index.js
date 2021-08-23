@@ -3,7 +3,6 @@ import '../../dashboard/dashboard.css';
 import { Helmet } from 'react-helmet';
 //import {Link} from 'react-router-dom';
 import firebase from '../../../firebase.js';
-import '../publicacoes/publicacoes.css';
 import Footer from '../../../Footer'
 import SeletorDeCategoria from "../../../components/CategorySelector";
 

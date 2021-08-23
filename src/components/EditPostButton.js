@@ -6,8 +6,8 @@ export default function EditPostButton() {
 
     const {post} = usePostContext()
     const postId = useState(post.id)
-    const category = useState(post.categoria)
-    const isOwner = useState(post.ehDono)
+    const category = useState(post.category)
+    const isOwner = useState(post.isOwner)
     let history = useHistory()
 
     function editPostRedirect() {

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import firebase from '../../../firebase.js';
 //import {Link, Redirect} from 'react-router-dom';
-import '../publicacoes/publicacoes.css';
 import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
 import CandidateList from "../../../components/CandidateList";

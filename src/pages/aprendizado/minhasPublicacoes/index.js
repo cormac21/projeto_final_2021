@@ -1,144 +1,98 @@
-import React, {Component} from 'react';
+import { useState} from 'react';
 import firebase from '../../../firebase.js';
-//import {Link, Redirect} from 'react-router-dom';
-import '../publicacoes/publicacoes.css';
-import {Helmet} from 'react-helmet';
-import Footer from '../../../Footer';
 import PostView from "../../../components/PostView"
 import BannerNenhumaPublicacao from "../../../components/NoPostsBanner"
 import PostContext from "../../../contexto/PostContext";
+import {useAuth} from "../../../contexto/AuthContext";
 
+export default function MyPosts(props) {
 
-class MinhasPublicacoes extends Component {
+    const {currentUser} = useAuth()
+    const [list, setList] = useState([])
+    const [categoryList, setCategoryList] = useState([])
+    const [userList, setUserList] = useState([])
+    const postsRef = firebase.firestore().collection("posts")
+    const categoriesRef = firebase.firestore().collection("categories")
 
-    constructor(props) {
-        super(props);
+    getMyPosts()
 
-        this.state = {
-            user: null,
-            loading: true,
-            //comentario: '',
-            lista: [],
-            listaCategorias: [],
-            listaUsuarios: [],
-            estahEditando: false
+    async function getMyPosts() {
+        try {
+            const query = postsRef.where("user", "==", currentUser.uid)
+            await query.get((snapshot) => {
+                snapshot.forEach((doc) => {
+                    const temporaryList = []
+                    temporaryList.push({
+                        id: doc.data().uid,
+                        title: doc.data().title,
+                        description: doc.data().description,
+                        levelOfKnowledge: doc.data().levelOfKnowledge,
+                        category: doc.data().category,
+                        username: doc.data().username,
+                        levelOfMaturity: doc.data().levelOfMaturity
+                    })
+                })
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
-        };
-        this.carregarPublicacoesDoUsuario = this.carregarPublicacoesDoUsuario.bind(this);
-
-        this.getTodasCategorias();
-        this.getTodosUsuarios();
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({user: user}, () => {
-                    this.carregarPublicacoesDoUsuario()
-                });
+    async function getCategories() {
+        try {
+            if ( categoryList.length == 0) {
+                await categoriesRef.get().then((snapshot) => {
+                    const temporaryList = []
+                    snapshot.forEach((doc) => {
+                        temporaryList.push({
+                            id: doc.id,
+                            name: doc.data().name
+                        })
+                    })
+                    setList(temporaryList)
+                })
             }
-        });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getTodasCategorias() {
-        var refCategorias = firebase.database().ref("categorias");
-        refCategorias.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaCategorias.push({
-                    id: child.key,
-                    nome: child.val().nome
-                })
-                this.setState(state)
-            })
-        })
-    }
-
-    getTodosUsuarios() {
-        var refUsuarios = firebase.database().ref("usuarios");
-        refUsuarios.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaUsuarios.push({
-                    id: child.key,
-                    nome: child.val().usuario
-                })
-                this.setState(state)
-            })
-        })
-    }
-
-    carregarPublicacoesDoUsuario() {
-        firebase.database().ref('publicacao').orderByChild('usuario')
-            .equalTo(this.state.user.uid).on("value", (snapshot) => {
-            let state = this.state;
-            state.lista = [];
-
-            snapshot.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade,
-                    candidatos: child.val().candidatos
-                })
-            });
-            this.setState(state);
-        });
-    }
-
-    render() {
-        if (this.state.lista.length == 0) {
-            return (
+    if( list.length == 0) {
+        return (
+            <>
                 <div className="page-container">
-                    {/* Titulo da página */}
-                    <Helmet>
-                        <title>Minhas Publicações</title>
-                    </Helmet>
-                    {/*Centro publicações*/}
                     <div className="p-2 bd-highlight feedPublicacoesConhecimento content-wrap">
                         <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Minhas Publicações </h2>
                         <BannerNenhumaPublicacao></BannerNenhumaPublicacao>
                     </div>
-                    {/* <Footer></Footer> */}
                 </div>
-            )
-        } else {
-            return (
+            </>
+        )
+    } else {
+        return (
+            <>
                 <div className="page-container">
-                    {/* Titulo da página */}
-                    <Helmet>
-                        <title>Minhas Publicações</title>
-                    </Helmet>
-                    {/*Centro publicações*/}
                     <div className="p-2 bd-highlight feedPublicacoesConhecimento content-wrap">
                         <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Minhas Publicações </h2>
                         {
-                            this.state.lista.map((child) => {
-                                let categoria = this.state.listaCategorias.filter((categoria) => child.categoria === categoria.id)[0]
-                                child.publicacaoCategoria = categoria
-                                let usuario = this.state.listaUsuarios.filter((usuario) => child.usuario === usuario.id)[0]
-                                child.publicacaoUsuario = usuario
-                                let ehDono = false
-                                if (child.usuario === this.state.user.uid) {
-                                    ehDono = true;
+                            list.map((item) => {
+                                let category = categoryList.filter((categ) => item.category === categ.id)[0]
+                                let isOwner = false;
+                                if (item.user === currentUser.uid) {
+                                    isOwner = true;
                                 }
-                                child.ehDono = ehDono;
+                                item.isOwner = isOwner;
                                 return (
-                                    <PostContext.Provider value={child}>
+                                    <PostContext.Provider value={item}>
                                         <PostView/>
                                     </PostContext.Provider>
                                 )
-                            })}
+                            })
+                        }
                     </div>
-                    {/* <Footer></Footer> */}
                 </div>
-            )
-        }
+            </>
+        )
     }
-
 }
 
-export default MinhasPublicacoes;
