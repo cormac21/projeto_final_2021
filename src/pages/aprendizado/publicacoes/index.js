@@ -1,220 +1,166 @@
-import React, {Component} from 'react';
+import { useState} from 'react';
 import firebase from '../../../firebase.js';
-//import {Link, Redirect} from 'react-router-dom';
 import './publicacoes.css';
-import {Helmet} from 'react-helmet';
-import Footer from '../../../Footer';
 import SeletorDeCategoria from "../../../components/CategorySelector";
-import BotaoInscreverCandidatos from "../../../components/SignUpCandidateForPostButton"
+import {PostProvider} from "../../../contexto/PostContext";
 import PostView from "../../../components/PostView";
+import {Container} from "react-bootstrap";
+import LevelOfMaturitySelector from "../../../components/LevelOfMaturitySelector";
+import {useAuth} from "../../../contexto/AuthContext";
 
-class Publicacoes extends Component {
+export default function Posts(props) {
 
-    constructor(props) {
-        super(props);
+    const [loading, setLoading] = useState(true)
+    const [username, setUsername] = useState("")
+    const [name, setName] = useState("")
+    const [url, setUrl] = useState("")
+    const [levelOfMaturity, setLevelOfMaturity] = useState("")
+    const [category, setCategory] = useState("")
+    const [list, setList] = useState([])
+    const [categoryList, setCategoryList ] = useState([])
+    const usersRef = firebase.firestore().collection("users");
+    const postsRef = firebase.firestore().collection("posts");
+    const categoriesRef = firebase.firestore().collection('categories');
+    const { currentUser } = useAuth()
 
-        this.state = {
-            user: null,
-            loading: true,
-            usuario: '',
-            nome: '',
-            url: '',
-            idade: '',
-            categoria: '',
-            nomeCategoria: '',
-            lista: [],
-            listaCategorias: [],
-            listaUsuarios: []
-        };
+    getUserDetails()
 
-        this.getPublicacoesPorIdade = this.getPublicacoesPorIdade.bind(this);
-        this.getPublicacoesPorCategoria = this.getPublicacoesPorCategoria.bind(this);
-        this.updateValorSelecionado = this.updateValorSelecionado.bind(this);
-        this.getTodasPublicacoes = this.getTodasPublicacoes.bind(this);
-        this.getTodasCategorias = this.getTodasCategorias.bind(this);
-        this.getTodosUsuarios = this.getTodosUsuarios.bind(this);
-        this.getTodasCategorias();
-        this.getTodosUsuarios();
-        this.getTodasPublicacoes();
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({user: user});
-                firebase.database().ref('usuarios').child(user.uid).on('value', (snapshot) => {
-                    this.setState({loading: false, usuario: snapshot.val().usuario, nome: snapshot.val().nome})
-                });
-            }
-        });
-    }
-
-    updateValorSelecionado(e) {
-        this.setState({idade: e.target.value, lista: []}, () => {
-            if (this.state.idade == undefined || this.state.idade.trim() == "") {
-                this.getTodasPublicacoes();
+    async function getUserDetails() {
+        try {
+            const doc = await usersRef.doc(currentUser.uid).get();
+            if (!doc.exists) {
+                console.log("Não encontrei usuários com este uid!")
+                return;
             } else {
-                this.getPublicacoesPorIdade();
+                setUsername(doc.data().username);
+                setLoading(false)
             }
-        });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    callbackDoSeletorDeCategoria = (dados) => {
-        this.setState({
-            categoria: dados.id,
-            nomeCategoria: dados.nome
-        }, () => {
-            if (this.state.nomeCategoria === "") {
-                this.getTodasPublicacoes();
-            }
-            this.getPublicacoesPorCategoria();
-        })
-    }
-
-    getTodasCategorias() {
-        var refCategorias = firebase.database().ref("categorias");
-        refCategorias.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaCategorias.push({
-                    id: child.key,
-                    nome: child.val().nome
+    async function getPostsByLevelOfMaturity() {
+        try {
+            const query = postsRef.where('levelOfMaturity', '==', levelOfMaturity)
+            await query.get((snapshot) => {
+                const temporaryList = []
+                snapshot.forEach((doc) => {
+                    temporaryList.push({
+                        id: doc.data().uid,
+                        title: doc.data().title,
+                        description: doc.data().description,
+                        levelOfKnowledge: doc.data().levelOfKnowledge,
+                        category: doc.data().category,
+                        username: doc.data().username,
+                        levelOfMaturity: doc.data().levelOfMaturity
+                    })
                 })
-                this.setState(state);
+                setList(temporaryList)
             })
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getTodosUsuarios() {
-        var refUsuarios = firebase.database().ref("usuarios");
-        refUsuarios.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaUsuarios.push({
-                    id: child.key,
-                    nome: child.val().usuario
+    async function getPostsByCategory() {
+        try {
+            const query = postsRef.where('category', '==', category)
+            await query.get((snapshot) => {
+                const temporaryList = []
+                snapshot.forEach((doc) => {
+                    temporaryList.push({
+                        id: doc.data().uid,
+                        title: doc.data().title,
+                        description: doc.data().description,
+                        levelOfKnowledge: doc.data().levelOfKnowledge,
+                        category: doc.data().category,
+                        username: doc.data().username,
+                        levelOfMaturity: doc.data().levelOfMaturity
+                    })
                 })
-                this.setState(state)
+                setList(temporaryList)
             })
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getTodasPublicacoes() {
-        var refPublicacao = firebase.database().ref("publicacao");
-        refPublicacao.once("value", (result) => {
-            let state = this.state;
-            state.lista = [];
-
-            result.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
+    async function getAllCategories() {
+        try {
+            await categoriesRef.get((snap) => {
+                const tempCategoryList = []
+                snap.forEach((doc) => {
+                    tempCategoryList.push({
+                        id: doc.data().uid,
+                        name: doc.data().name
+                    })
                 })
-            });
-            this.setState(state)
-        });
+                setCategoryList(tempCategoryList)
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
+    async function getAllPosts() {
+        try {
+            await postsRef.get((snap) => {
+                const tempPostsList = []
+                snap.forEach((doc) => {
+                    tempPostsList.push({
 
-    getPublicacoesPorCategoria() {
-        var refPublicacao = firebase.database().ref("publicacao");
-        refPublicacao.orderByChild('categoria').equalTo(this.state.categoria).once("value", (result) => {
-            let state = this.state;
-            state.lista = [];
-            result.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
+                    })
                 })
-            });
-            this.setState(state);
-        });
+                setList(tempPostsList)
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getPublicacoesPorIdade() {
-        var ref = firebase.database().ref("publicacao");
-        ref.orderByChild('idade').equalTo(this.state.idade).on("value", (snapshot) => {
-            let state = this.state;
-            state.lista = [];
-
-            snapshot.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
-                })
-            });
-            this.setState(state);
-        });
+    function triggerFilter() {
+        //TODO
     }
 
-    render() {
+    function levelOfMaturityCallback(data) {
+        setLevelOfMaturity(data.id)
+        triggerFilter()
+    }
 
-        return (
-            <div className="page-container">
-                {/* Titulo da página */}
-                <Helmet>
-                    <title>Publicações Conhecimento</title>
-                </Helmet>
+    function categorySelectorCallback(data) {
+        setCategory(data.id)
+        triggerFilter()
+    }
 
-                {/* Conteúdo */}
-                <div className="p-2 bd-highlight feedPublicacoesConhecimento content-wrap">
-                    <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Pedidos de Ajuda </h2>
-                    
-                    {/* Filtros */}
-
-                    <div className="row" style={{marginTop: "2em"  , paddingLeft: "20vw", marginRight: "auto"}}> 
-                        <div className="col">
-                            <label> Selecione o tipo de pessoa que fez a publicação </label> <br />
-                            <select id="selectIdade" className="form-select" aria-label="Default select example"
-                                    onChange={this.updateValorSelecionado}>
-                                <option value="" selected> Selecione </option>
-                                <option value="Maturi"> Maturi </option>
-                                <option value="Jovem"> Jovem </option>
-                            </select>
-                        </div>
-                        <div className="col">
-                            <label> Selecione a categoria da publicação </label> <br />
-                            <SeletorDeCategoria callback={this.callbackDoSeletorDeCategoria}></SeletorDeCategoria>
-                        </div>
+    return (
+        <>
+            <Container className="d-flex justify-content-center" style={{minHeight: "100vh"}}>
+                <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Pedidos de Ajuda </h2>
+                <div className="row" style={{marginTop: "2em"  , paddingLeft: "20vw", marginRight: "auto"}}>
+                    <div className="col">
+                        <label> Selecione o tipo de pessoa que fez a publicação </label> <br />
+                        <LevelOfMaturitySelector callback={levelOfMaturityCallback} ></LevelOfMaturitySelector>
                     </div>
-
-                    {/* Carregamento das postagens */}
-                    {this.state.lista.map((child) => {
-                        let categoria = this.state.listaCategorias.filter((categoria) => child.categoria === categoria.id)[0]
-                        let usuario = this.state.listaUsuarios.filter((usuario) => child.usuario === usuario.id)[0]
-                        let ehDono = false
-                        if (child.usuario === this.state.user.uid) {
-                            ehDono = true;
-                        }
-                        return (
-                            <PostView publicacao={child} publicacaoCategoria={categoria.nome}
-                                      publicacaoUsuario={usuario.nome} ehDono={ehDono}></PostView>
-                        )
-                    })}
-
+                    <div className="col">
+                        <label> Selecione a categoria da publicação </label> <br />
+                        <SeletorDeCategoria callback={categorySelectorCallback}></SeletorDeCategoria>
+                    </div>
                 </div>
-
-                {/* <Footer></Footer> */}
-            </div>
-        )
-    }
+                {list.map((child) => {
+                    let categoryTemp = categoryList.filter((categ) => child.category === categ.id)[0]
+                    let isOwner = false
+                    if (child.usuario === currentUser.uid) {
+                        child.isOwner = true;
+                    }
+                    return (
+                        <PostProvider post={child}>
+                            <PostView  ></PostView>
+                        </PostProvider>
+                    )
+                })}
+            </Container>
+        </>
+    )
 
 }
-
-export default Publicacoes;

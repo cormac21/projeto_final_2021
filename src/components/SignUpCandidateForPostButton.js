@@ -1,11 +1,11 @@
-import {useContext, useState} from "react";
+import { useState} from "react";
 import firebase from '../firebase'
-import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
+import {usePostContext} from "../contexto/PostContext";
 
 export default function SignUpCandidateForPostButton(props) {
 
     const [user, setUser] = useState(null)
-    const post = useContext(ContextoDePublicacao)
+    const { post } = usePostContext()
     const [postId, setPostId] = useState(post.id)
     const [isOwner, setIsOwner] = useState(post.ehDono)
     const refPosts = firebase.database().ref("publicacao/" + postId);

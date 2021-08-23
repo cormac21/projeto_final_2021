@@ -6,7 +6,7 @@ import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
 import PostView from "../../../components/PostView"
 import BannerNenhumaPublicacao from "../../../components/NoPostsBanner"
-import ContextoDePublicacao from "../../../contexto/ContextoDePublicacao";
+import PostContext from "../../../contexto/PostContext";
 
 
 class MinhasPublicacoes extends Component {
@@ -127,9 +127,9 @@ class MinhasPublicacoes extends Component {
                                 }
                                 child.ehDono = ehDono;
                                 return (
-                                    <ContextoDePublicacao.Provider value={child}>
+                                    <PostContext.Provider value={child}>
                                         <PostView/>
-                                    </ContextoDePublicacao.Provider>
+                                    </PostContext.Provider>
                                 )
                             })}
                     </div>

@@ -1,19 +1,19 @@
-import {useContext, useState} from 'react'
+import { useState} from 'react'
 import EditPostButton from './EditPostButton'
 import CandidateList from "./CandidateList";
 import SignUpCandidateForPostButton from "./SignUpCandidateForPostButton";
-import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
+import {usePostContext} from "../contexto/PostContext";
 
 export default function PostView(props) {
 
-    const publicacao = useContext(ContextoDePublicacao)
-    const [publicacaoId, setPublicacaoId] = useState(publicacao.id)
-    const [titulo, setTitulo] = useState(publicacao.titulo)
-    const [conhecimento, setConhecimento] = useState(publicacao.conhecimento)
-    const [idade, setIdade] = useState(publicacao.idade)
-    const [descricao, setDescricao] = useState(publicacao.descricao)
-    const [categoria, setCategoria] = useState(publicacao.publicacaoCategoria)
-    const [usuario, setUsuario] = useState(publicacao.publicacaoUsuario)
+    const { post } = usePostContext()
+    const [publicacaoId, setPublicacaoId] = useState(post.id)
+    const [titulo, setTitulo] = useState(post.titulo)
+    const [conhecimento, setConhecimento] = useState(post.conhecimento)
+    const [idade, setIdade] = useState(post.idade)
+    const [descricao, setDescricao] = useState(post.descricao)
+    const [categoria, setCategoria] = useState(post.publicacaoCategoria)
+    const [usuario, setUsuario] = useState(post.publicacaoUsuario)
 
     return (
         <div>

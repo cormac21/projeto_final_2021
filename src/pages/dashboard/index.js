@@ -1,51 +1,13 @@
-import React, {Component} from 'react';
-import firebase from '../../firebase.js';
-//import {Link} from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-//import Button from 'react-bootstrap/Button'
 import './dashboard.css';
-import Footer from '../../Footer'
 
+export default function Dashboard(props) {
 
-class Dashboard extends Component{
-
-  constructor(props){ 
-    super(props);
-
-    this.state = {
-        user:null,
-        loading: true,
-        usuario: '',
-        nome: '',
-        //url: '',
-        //comentario: '',
-        //lista: []
-    }; 
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user){
-        this.setState({user:user});
-        firebase.database().ref('usuarios').child(user.uid).on('value', (snapshot) => {
-          this.setState({loading:false, usuario:snapshot.val().usuario, nome:snapshot.val().nome})
-        });
-
-      }
-    });
-  }
-  
-  render(){
-
-    return (
+  return (
       <div className="page-container">
-
-        {/* Titulo da página */}
-          <Helmet>
-            <title>Dashboard</title>
-          </Helmet>
 
         {/* Conteúdo */}
         <div className="p-2 bd-highlight dashboard-middle dashboard content-wrap">
-        
+
           <br />
           <h1 className="title-dashboard">MaturiJovem</h1>
 
@@ -61,7 +23,7 @@ class Dashboard extends Component{
                 <p className="text-col">Nessa sessão, você pode aprender algo novo ou até mesmo compartilhar um conhecimento seu, com outra pessoa. Venha compartilhar seus conhecimentos entre pessoas de várias idades na sessão de conhecimentos gerais.</p>
                 <a href="/publicacoes" className="card-link align-self-end">Clique aqui</a>
               </div>
-              
+
               <div className="col col-style col2-style">
                 <h5 className="text-col">Trabalho</h5>
                 <p className="text-col">Na sessão de trabalho, você pode compartilhar uma experiência profissional ou trocar uma ideia com quem está precisando de uma dica. Não perca a oportunidade de aumentar sua rede de contatos.</p>
@@ -80,10 +42,6 @@ class Dashboard extends Component{
 
         </div>
 
-        {/* <Footer /> */}
       </div>
-    ); 
-  }
+  )
 }
-
-export default Dashboard;

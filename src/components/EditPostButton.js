@@ -1,10 +1,10 @@
-import {useContext, useState} from 'react'
+import { useState} from 'react'
 import {useHistory} from "react-router-dom";
-import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
+import {usePostContext} from "../contexto/PostContext";
 
 export default function EditPostButton() {
 
-    const post = useContext(ContextoDePublicacao)
+    const {post} = usePostContext()
     const postId = useState(post.id)
     const category = useState(post.categoria)
     const isOwner = useState(post.ehDono)

@@ -1,17 +1,17 @@
-import {useContext, useState} from 'react'
+import { useState} from 'react'
 import firebase from '../firebase'
-import ContextoDePublicacao from "../contexto/ContextoDePublicacao";
+import {usePostContext} from "../contexto/PostContext";
 
 export default function CandidateList(props) {
 
-    const publicacao = useContext(ContextoDePublicacao)
-    const [isOwner, setIsOwner] = useState(publicacao.ehDono)
-    const [publicacaoId, setPublicacaoId] = useState(publicacao.id)
+    const {post} = usePostContext()
+    const [isOwner, setIsOwner] = useState(post.ehDono)
+    const [publicacaoId, setPublicacaoId] = useState(post.id)
     let [loading, setLoading] = useState(false)
     let [error, setError] = useState(null)
     let [candidatoSelecionado, setCandidatoSelecionad] = useState("")
     let [nomeCandidatoSelecionado, setNomeCandidatoSelecionado] = useState("")
-    let [listaDeIdsCandidatos, setListaDeIdsCandidatos] = useState(publicacao.candidatos)
+    let [listaDeIdsCandidatos, setListaDeIdsCandidatos] = useState(post.candidatos)
     let [listaDeCandidatos, setListaDeCandidatos] = useState([])
     const refPublicacao = firebase.database().ref('publicacao')
     const refUsuarios = firebase.database().ref('usuarios')
