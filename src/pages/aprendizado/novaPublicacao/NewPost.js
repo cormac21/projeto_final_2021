@@ -40,25 +40,25 @@ export default function NewPost(props) {
 
     async function handleSubmit(event) {
         event.preventDefault()
-        await postsRef.add({
-            user: username,
-            title: titleRef.current.value,
-            description: descriptionRef.current.value,
-            levelOfKnowledge: levelOfKnowledge,
-            category: category,
-            createdOn: new Date().toISOString(),
-            levelOfMaturity: userLevelOfMaturity,
-            candidates: false,
-            active: true
-        }).then((snap) => {
+        try {
+            setLoading(true)
+            await postsRef.add({
+                user: username,
+                title: titleRef.current.value,
+                description: descriptionRef.current.value,
+                levelOfKnowledge: levelOfKnowledge,
+                category: category,
+                createdOn: new Date().toISOString(),
+                levelOfMaturity: userLevelOfMaturity,
+                candidates: false,
+                active: true
+            })
             alert("Publicação salva!")
-            history.push("/publicacoes")
             setLoading(false)
-        }).catch((er) => {
-                console.log(er)
-                setError("Deu ruim!")
-            }
-        )
+            history.push("/publicacoes")
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     function categorySelectorCallback(data) {

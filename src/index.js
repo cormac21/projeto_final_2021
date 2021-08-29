@@ -20,8 +20,7 @@ import Signup from "./pages/user/Signup";
 import LoginPage from "./pages/user/Login";
 import UserProfile from "./pages/user/UserProfile";
 import ChangePassword from "./pages/user/ChangePassword";
-import Switch from "react-router-dom/Switch";
-import Route from "react-router-dom/Route"
+import { Route, Switch } from "react-router-dom"
 import NewPost from "./pages/aprendizado/novaPublicacao/NewPost";
 import GroupsListPage from "./pages/groups/GroupsListPage";
 import NewGroupPage from "./pages/groups/NewGroupPage";

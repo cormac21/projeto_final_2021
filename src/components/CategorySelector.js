@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import firebase from '../firebase';
 import {Form} from 'react-bootstrap'
 
@@ -10,10 +10,15 @@ export default function CategorySelector(props) {
     const categoriesRef = firebase.firestore().collection("categories")
 
     getCategories()
+
     if( selectedCategory != undefined ) {
         let value = list.filter((item) => item.id === selectedCategory)[0]
         setSelectedValue(value.id)
     }
+
+    useEffect(() => {
+        console.log('Rendering CategorySelector')
+    })
 
     async function getCategories() {
         try {

@@ -4,8 +4,9 @@ import { useAuth } from '../../contexto/AuthContext'
 import firebase from '../../firebase'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom"
+import LevelOfMaturitySelector from "../../components/LevelOfMaturitySelector";
 
 export default function Signup(props) {
 
@@ -15,6 +16,7 @@ export default function Signup(props) {
     const usernameRef = useRef()
     const { signup } = useAuth()
     const [error, setError] = useState("")
+    const [ levelOfMaturity, setLevelOfMaturity] = useState("")
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("")
     const [startDate, setStartDate] = useState("");
@@ -36,6 +38,7 @@ export default function Signup(props) {
             await usersDb.doc(signupResult.user.uid).set({
                 email: emailRef.current.value,
                 username: usernameRef.current.value,
+                levelOfMaturity: levelOfMaturity,
                 birthDate: startDate,
                 createdDate: new Date()
             })
@@ -54,6 +57,10 @@ export default function Signup(props) {
                 setError("Ocorreu um erro na inserção do usuário na base de dados!")
             }
         }
+    }
+
+    function levelOfMaturityCallback(data) {
+        setLevelOfMaturity(data.id)
     }
 
     return (
@@ -95,6 +102,11 @@ export default function Signup(props) {
                             <Form.Group id="password">
                                 <Form.Label> Repita sua senha: </Form.Label>
                                 <Form.Control type="password" ref={passwordConfirmRef} required></Form.Control>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group id="levelOfMaturity" >
+                                <Form.Label> Finalmente, selecione o tipo de pessoa que mais se identifica: </Form.Label>
+                                <LevelOfMaturitySelector callback={levelOfMaturityCallback} />
                             </Form.Group>
                             <br/>
                             <Button className="w-100" type="submit" disabled={loading}>Cadastrar</Button>
