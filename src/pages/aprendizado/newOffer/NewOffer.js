@@ -1,123 +1,120 @@
-import React, {Component} from 'react';
+import React, { useRef, useState} from 'react';
 import '../../dashboard/dashboard.css';
-import { Helmet } from 'react-helmet';
-//import {Link} from 'react-router-dom';
 import firebase from '../../../firebase.js';
-import Footer from '../../../Footer'
-import SeletorDeCategoria from "../../../components/CategorySelector";
+import {useAuth} from "../../../contexto/AuthContext";
+import {useHistory} from "react-router-dom";
+import {Alert, Button, Card, Container, Form} from "react-bootstrap";
+import CategorySelector from "../../../components/CategorySelector";
 
-class oferecerAjuda extends Component {
-  constructor(props){
-    super(props);
+export default function NewOffer(props) {
 
-    this.state = {
-      //imagem: null,
-      user:null,
-      usuario: '',
-      nome: '',
-      idade: '',
+  const {currentUser} = useAuth();
+  const [username, setUsername] = useState("")
+  const [userLevelOfMaturity, setUserLevelOfMaturity] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const titleRef = useRef()
+  const descriptionRef = useRef()
+  const [levelOfKnowledge, setLevelOfKnowledge] = useState("")
+  const [category, setCategory] = useState("")
+  const usersRef = firebase.firestore().collection("users");
+  const offersRef = firebase.firestore().collection("offers");
+  let history = useHistory()
 
-      loading: true,
-      titulo: '',
-      descricao: '',
-      conhecimento: '',
-      categoria: ''
-    };
+  getUserDetails()
 
-    this.ofertar = this.ofertar.bind(this);
-    this.callbackDoSeletorDeCategoria = this.callbackDoSeletorDeCategoria.bind(this);
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({user: user});
-        firebase.database().ref('usuarios').child(user.uid).on('value', (snapshot) => {
-          this.setState({
-            loading: false,
-            usuario: snapshot.val().usuario,
-            nome: snapshot.val().nome,
-            idade: snapshot.val().idade
-          })
-        });
+  async function getUserDetails() {
+    try {
+      const doc = await usersRef.doc(currentUser.uid).get();
+      if (!doc.exists) {
+        console.log("Não encontrei usuários com este email!")
+        return;
+      } else {
+        setUsername(doc.data().username);
+        setUserLevelOfMaturity(doc.data().levelOfMaturity)
+        setLoading(false)
       }
-    });
-
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  callbackDoSeletorDeCategoria = (dados) => {
-    this.setState({
-      categoria: dados.id
-    })
+  async function handleSubmit(event) {
+    event.preventDefault()
+    try {
+      setLoading(true)
+      await offersRef.add({
+        user: username,
+        title: titleRef.current.value,
+        description: descriptionRef.current.value,
+        levelOfKnowledge: levelOfKnowledge,
+        category: category,
+        createdOn: new Date().toISOString(),
+        levelOfMaturity: userLevelOfMaturity,
+        candidates: false,
+        active: true
+      })
+      alert("Publicação salva!")
+      setLoading(false)
+      history.push("/posts")
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  ofertar(e) {
-    firebase.database().ref('ofertas').push({
-      usuario: this.state.user.uid,
-      titulo: this.state.titulo,
-      descricao: this.state.descricao,
-      conhecimento: this.state.conhecimento,
-      categoria: this.state.categoria,
-      idade: this.state.idade
-    })
-    .then(() => {
-      alert("Oferta salva");
-
-      this.props.history.replace("/posts");
-    });
+  function categorySelectorCallback(data) {
+    setCategory(data.id)
   }
-  
-  render() {
-    return (
-      <div className="page-container">
 
-        {/* Titulo da página */}
-          <Helmet title="Nova oferta de ajuda" />
-        {/* Fim título da página */}
+  function handleKnowledgeChange(event) {
+    setLevelOfKnowledge(event.target.options[event.target.selectedIndex].text)
+  }
 
-        {/* Criar oferta */}
-          <div className="p-2 bd-highlight feedNovaPublicacao content-wrap">
-            <div className="conteudoNovaPublicacao" style={{marginTop: "7vh"}}>
-              <h3 style={{textAlign: "center", color: "#3F4596"}}> Criar Oferta de Ajuda </h3>
-
-              <hr />
-
-              <div className="form-group">
-                <input type="text" placeholder="Titulo" id="tituloPubli" className="form-control form-control-md" onChange={ (e) => this.setState({titulo: e.target.value})} required/>
-              </div>
-              <div className="form-group">
-                <textarea id="descricaoPubli" placeholder="Descrição" className="form-control form-control-md descricao" cols="40" rows="7" onChange={ (e) => this.setState({descricao: e.target.value})} required/>
-              </div>
-
-              <div className="container">
-                <div className="row">
-                  <div className="col center">
-                    <label> Nível de Conhecimento </label> <br />
-                    <select className="form-select left-select" aria-label="Default select example"
-                        onChange={(e) => this.setState({conhecimento: e.target.value})} required>
-                      <option defaultValue value=""></option>
-                      <option value="Alto">Alto</option>
-                      <option value="Médio">Médio</option>
+  return (
+      <>
+        <div style={{minHeight: "100px"}}></div>
+        <Container className="d-flex justify-content-center" style={{minHeight: "100vh"}}>
+          <div className="w-100" style={{maxWidth: "600px"}}>
+            <Card>
+              <Card.Body>
+                <h2 className="text-center mb-4">Criar Oferta de Ajuda</h2>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group id="title">
+                    <Form.Label>Titulo</Form.Label>
+                    <Form.Control type="text" ref={titleRef} required/>
+                  </Form.Group>
+                  <br/>
+                  <Form.Group id="description">
+                    <Form.Label>Descrição</Form.Label>
+                    <Form.Control as="textarea" rows={3} ref={descriptionRef}/>
+                  </Form.Group>
+                  <br/>
+                  <Form.Group id="levelOfKnowledge">
+                    <Form.Label>Nível de Conhecimento</Form.Label>
+                    <Form.Select value={levelOfKnowledge} onChange={handleKnowledgeChange}>
+                      <option value=""></option>
+                      <option value="Sem Conhecimento">Sem Conhecimento</option>
                       <option value="Baixo">Baixo</option>
-                    </select>
-                  </div>
-
-                  <div className="col mb-4">
-                    <label> Categoria </label> <br />
-                    <SeletorDeCategoria callback={this.callbackDoSeletorDeCategoria}></SeletorDeCategoria>
-                  </div>
-                </div>
-              </div>
-
-              <button type="button" className="btn btn-md btn-block btn-novoPedido" onClick={this.ofertar}> Ofertar </button>
-              {/* <hr/> <br/> */}
-            </div>
+                      <option value="Médio">Médio</option>
+                      <option value="Alto">Alto</option>
+                    </Form.Select>
+                  </Form.Group>
+                  <br/>
+                  <Form.Group id="category">
+                    <Form.Label>Categoria</Form.Label>
+                    <CategorySelector callback={categorySelectorCallback}/>
+                  </Form.Group>
+                  <br/>
+                  <Button className="w-100" type="submit" disabled={loading}>Nova Oferta</Button>
+                </Form>
+              </Card.Body>
+            </Card>
           </div>
-        {/* Fim criar publicação */}
-
-        {/* <Footer /> */}
-      </div>
-    );
-  }
+        </Container>
+      </>
+  );
 
 }
 
-export default oferecerAjuda;
+

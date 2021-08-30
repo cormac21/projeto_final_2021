@@ -1,4 +1,4 @@
-import { useState} from "react";
+import {useState} from "react";
 import firebase from '../../../firebase.js';
 import CandidateList from "../../../components/CandidateList";
 import {useAuth} from "../../../contexto/AuthContext";
@@ -8,7 +8,7 @@ import {Alert, Button, Card, Form} from "react-bootstrap";
 
 export default function EditPost(props) {
 
-    const { currentUser } = useAuth()
+    const {currentUser} = useAuth()
     const [postId, setPostId] = useState(props.match.params.id)
     const [categoryId, setCategoryId] = useState(new URLSearchParams(props.location.search).get("categoria"))
     const [post, setPost] = useState("")
@@ -63,7 +63,7 @@ export default function EditPost(props) {
         }
     }
 
-    function categorySelectorCallback(data){
+    function categorySelectorCallback(data) {
         setCategoryId(data.id)
     }
 
@@ -98,7 +98,8 @@ export default function EditPost(props) {
                             <br/>
                             <Form.Group id="description">
                                 <Form.Label>Descrição</Form.Label>
-                                <Form.Control as="textarea" rows={3} value={description} onChange={updateDescriptionValue}/>
+                                <Form.Control as="textarea" rows={3} value={description}
+                                              onChange={updateDescriptionValue}/>
                             </Form.Group>
                             <br/>
                             <Form.Group id="levelOfKnowledge">
@@ -117,62 +118,14 @@ export default function EditPost(props) {
                                 <CategorySelector value={categoryId} callback={categorySelectorCallback}/>
                             </Form.Group>
                             <br/>
+                            <div>
+                                <CandidateList></CandidateList>
+                            </div>
                             <Button className="w-100" type="submit" disabled={loading}>Editar Post</Button>
                         </Form>
                     </Card.Body>
                 </Card>
-                <div className="conteudoEditarPublicacao" style={{marginTop: "7vh"}}>
-                    <h3 style={{textAlign: "center", color: "#3F4596"}}>Editar Pedido de Ajuda</h3>
-                    <hr/>
-
-                    <div className="form-group">
-                        <input type="text" placeholder="Titulo" id="tituloPubli"
-                               className="form-control form-control-md"
-                               value={this.state.titulo}
-                               onChange={(e) => this.setState({titulo: e.target.value})} required/>
-                    </div>
-                    <div className="form-group">
-                            <textarea id="descricaoPubli" placeholder="Descrição"
-                                      className="form-control descricao" cols="40" rows="7"
-                                      value={this.state.descricao}
-                                      onChange={(e) => this.setState({descricao: e.target.value})} required/>
-                    </div>
-
-                    <div className="container">
-                        <div className="row">
-                            <div className="col center">
-                                <label> Nível de Conhecimento </label> <br/>
-                                <select className="form-select left-select" aria-label="Default select example"
-                                        value={this.state.conhecimento}
-                                        onChange={(e) => this.setState({conhecimento: e.target.value})} required>
-                                    <option defaultValue value=""></option>
-                                    <option value="Sem Conhecimento">Sem Conhecimento</option>
-                                    <option value="Baixo">Baixo</option>
-                                    <option value="Médio">Médio</option>
-                                    <option value="Alto">Alto</option>
-                                </select>
-                            </div>
-
-                            <div className="col mb-4">
-                                <label> Categoria </label> <br/>
-                                <CategorySelector />
-                            </div>
-                        </div>
-                    </div>
-
-                    <CandidateList publicacaoId={this.state.idPublicacao}
-                                   ehDono={this.state.ehDono}></CandidateList>
-                    <br/>
-                    <br/>
-                    <button type="button" className="btn btn-block btn-novoPedido"
-                            onClick={this.editarPublicacao}>Editar
-                    </button>
-                    <hr/>
-
-                    <br/>
-                </div>
             </div>
-            {/* <Footer/> */}
         </div>
     )
 

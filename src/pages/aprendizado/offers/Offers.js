@@ -1,215 +1,164 @@
-import React, {Component} from 'react';
+import React, { useState} from 'react';
 import firebase from '../../../firebase.js';
-//import {Link, Redirect} from 'react-router-dom';
-import {Helmet} from 'react-helmet';
-import Footer from '../../../Footer';
-import SeletorDeCategoria from "../../../components/CategorySelector";
-import BotaoInscreverCandidatos from "../../../components/SignUpCandidateForPostButton"
 import OfferView from "../../../components/OfferView";
+import {useAuth} from "../../../contexto/AuthContext";
+import {Container} from "react-bootstrap";
+import LevelOfMaturitySelector from "../../../components/LevelOfMaturitySelector";
+import CategorySelector from "../../../components/CategorySelector";
+import {OfferProvider} from "../../../contexto/OfferContext";
 
-class OfertasAjuda extends Component {
+export default function Offers(props) {
 
-    constructor(props) {
-        super(props);
+    const [loading, setLoading] = useState(true)
+    const [username, setUsername] = useState("")
+    const [name, setName] = useState("")
+    const [url, setUrl] = useState("")
+    const [levelOfMaturity, setLevelOfMaturity] = useState("")
+    const [category, setCategory] = useState("")
+    const [list, setList] = useState([])
+    const [categoryList, setCategoryList ] = useState([])
+    const usersRef = firebase.firestore().collection("users");
+    const offersRef = firebase.firestore().collection("offers");
+    const categoriesRef = firebase.firestore().collection('categories');
+    const { currentUser } = useAuth()
 
-        this.state = {
-            user: null,
-            loading: true,
-            usuario: '',
-            nome: '',
-            url: '',
-            idade: '',
-            categoria: '',
-            nomeCategoria: '',
-            lista: [],
-            listaCategorias: [],
-            listaUsuarios: []
-        };
+    getUserDetails()
 
-        this.getOfertasPorIdade = this.getOfertasPorIdade.bind(this);
-        this.getOfertasPorCategoria = this.getOfertasPorCategoria.bind(this);
-        this.updateValorSelecionado = this.updateValorSelecionado.bind(this);
-        this.getTodasOfertas = this.getTodasOfertas.bind(this);
-        this.getTodasCategorias = this.getTodasCategorias.bind(this);
-        this.getTodosUsuarios = this.getTodosUsuarios.bind(this);
-        this.getTodasCategorias();
-        this.getTodosUsuarios();
-        this.getTodasOfertas();
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({user: user});
-                firebase.database().ref('usuarios').child(user.uid).on('value', (snapshot) => {
-                    this.setState({loading: false, usuario: snapshot.val().usuario, nome: snapshot.val().nome})
-                });
-            }
-        });
-    }
-
-    updateValorSelecionado(e) {
-        this.setState({idade: e.target.value, lista: []}, () => {
-            if (this.state.idade == undefined || this.state.idade.trim() == "") {
-                this.getTodasOfertas();
+    async function getUserDetails() {
+        try {
+            const doc = await usersRef.doc(currentUser.uid).get();
+            if (!doc.exists) {
+                console.log("Não encontrei usuários com este uid!")
+                return;
             } else {
-                this.getOfertasPorIdade();
+                setUsername(doc.data().username);
+                setLoading(false)
             }
-        });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    callbackDoSeletorDeCategoria = (dados) => {
-        this.setState({
-            categoria: dados.id,
-            nomeCategoria: dados.nome
-        }, () => {
-            if (this.state.nomeCategoria === "") {
-                this.getTodasOfertas();
-            }
-            this.getOfertasPorCategoria();
-        })
-    }
-
-    getTodasCategorias() {
-        var refCategorias = firebase.database().ref("categorias");
-        refCategorias.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaCategorias.push({
-                    id: child.key,
-                    nome: child.val().nome
+    async function getOffersByLevelOfMaturity() {
+        try {
+            const query = offersRef.where('levelOfMaturity', '==', levelOfMaturity)
+            await query.get((snapshot) => {
+                const temporaryList = []
+                snapshot.forEach((doc) => {
+                    temporaryList.push({
+                        id: doc.data().uid,
+                        title: doc.data().title,
+                        description: doc.data().description,
+                        levelOfKnowledge: doc.data().levelOfKnowledge,
+                        category: doc.data().category,
+                        username: doc.data().username,
+                        levelOfMaturity: doc.data().levelOfMaturity
+                    })
                 })
-                this.setState(state);
+                setList(temporaryList)
             })
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getTodosUsuarios() {
-        var refUsuarios = firebase.database().ref("usuarios");
-        refUsuarios.once("value", (result) => {
-            result.forEach((child) => {
-                let state = this.state;
-                state.listaUsuarios.push({
-                    id: child.key,
-                    nome: child.val().usuario
+    async function getOffersByCategory() {
+        try {
+            const query = offersRef.where('category', '==', category)
+            await query.get((snapshot) => {
+                const temporaryList = []
+                snapshot.forEach((doc) => {
+                    temporaryList.push({
+                        id: doc.data().uid,
+                        title: doc.data().title,
+                        description: doc.data().description,
+                        levelOfKnowledge: doc.data().levelOfKnowledge,
+                        category: doc.data().category,
+                        username: doc.data().username,
+                        levelOfMaturity: doc.data().levelOfMaturity
+                    })
                 })
-                this.setState(state)
+                setList(temporaryList)
             })
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getTodasOfertas() {
-        var refOferta = firebase.database().ref("ofertas");
-        refOferta.once("value", (result) => {
-            let state = this.state;
-            state.lista = [];
-
-            result.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
+    async function getAllCategories() {
+        try {
+            await categoriesRef.get((snap) => {
+                const tempCategoryList = []
+                snap.forEach((doc) => {
+                    tempCategoryList.push({
+                        id: doc.data().uid,
+                        name: doc.data().name
+                    })
                 })
-            });
-            this.setState(state)
-        });
+                setCategoryList(tempCategoryList)
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
+    async function getAllOffers() {
+        try {
+            await offersRef.get((snap) => {
+                const tempPostsList = []
+                snap.forEach((doc) => {
+                    tempPostsList.push({
 
-    getOfertasPorCategoria() {
-        var refOferta = firebase.database().ref("ofertas");
-        refOferta.orderByChild('categoria').equalTo(this.state.categoria).once("value", (result) => {
-            let state = this.state;
-            state.lista = [];
-            result.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
+                    })
                 })
-            });
-            this.setState(state);
-        });
+                setList(tempPostsList)
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    getOfertasPorIdade() {
-        var ref = firebase.database().ref("oferta");
-        ref.orderByChild('idade').equalTo(this.state.idade).on("value", (snapshot) => {
-            let state = this.state;
-            state.lista = [];
-
-            snapshot.forEach((child) => {
-                state.lista.push({
-                    id: child.key,
-                    titulo: child.val().titulo,
-                    descricao: child.val().descricao,
-                    //url: child.val().imagem,
-                    conhecimento: child.val().conhecimento,
-                    categoria: child.val().categoria,
-                    usuario: child.val().usuario,
-                    idade: child.val().idade
-                })
-            });
-            this.setState(state);
-        });
+    function triggerFilter() {
+        //TODO
     }
 
-    render() {
+    function levelOfMaturityCallback(data) {
+        setLevelOfMaturity(data.id)
+        triggerFilter()
+    }
 
-        return (
-            <div className="page-container">
-                {/* Titulo da página */}
-                <Helmet>
-                    <title>Ofertas de ajuda</title>
-                </Helmet>
+    function categorySelectorCallback(data) {
+        setCategory(data.id)
+        triggerFilter()
+    }
 
-                {/* Conteúdo */}
-                <div className="p-2 bd-highlight feedPublicacoesConhecimento content-wrap">
-                    <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Ofertas de Ajuda </h2>
-                    
-                    {/* Filtros */}
-
-                    <div className="row" style={{marginTop: "2em"  , paddingLeft: "20vw", marginRight: "auto"}}> 
-                        <div className="col">
-                            <label> Selecione o público que fez a oferta </label> <br />
-                            <select id="selectIdade" className="form-select" aria-label="Default select example"
-                                    onChange={this.updateValorSelecionado}>
-                                <option value="" selected> Selecione </option>
-                                <option value="Maturi"> Maturi </option>
-                                <option value="Jovem"> Jovem </option>
-                            </select>
-                        </div>
-                        <div className="col">
-                            <label> Selecione a categoria da oferta </label> <br />
-                            <SeletorDeCategoria callback={this.callbackDoSeletorDeCategoria}></SeletorDeCategoria>
-                        </div>
+    return (
+        <>
+            <Container className="d-flex justify-content-center" style={{minHeight: "100vh"}}>
+                <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Ofertas de Ajuda </h2>
+                <div className="row" style={{marginTop: "2em"  , paddingLeft: "20vw", marginRight: "auto"}}>
+                    <div className="col">
+                        <label> Selecione o tipo de pessoa que fez a publicação </label> <br />
+                        <LevelOfMaturitySelector callback={levelOfMaturityCallback} />
                     </div>
-
-                    {/* Carregamento das postagens */}
-                    {this.state.lista.map((child) => {
-                        let categoria = this.state.listaCategorias.filter((categoria) => child.categoria === categoria.id)[0]
-                        let usuario = this.state.listaUsuarios.filter((usuario) => child.usuario === usuario.id)[0]
-                        return (
-                            <OfferView ofertas={child} ofertasCategoria={categoria.nome}
-                                       ofertasUsuario={usuario.nome} />
-                        )
-                    })}
-
+                    <div className="col">
+                        <label> Selecione a categoria da publicação </label> <br />
+                        <CategorySelector callback={categorySelectorCallback}></CategorySelector>
+                    </div>
                 </div>
-
-                {/* <Footer></Footer> */}
-            </div>
-        )
-    }
-
+                {list.map((child) => {
+                    let categoryTemp = categoryList.filter((categ) => child.category === categ.id)[0]
+                    let isOwner = false
+                    if (child.usuario === currentUser.uid) {
+                        child.isOwner = true;
+                    }
+                    return (
+                        <OfferProvider post={child}>
+                            <OfferView  ></OfferView>
+                        </OfferProvider>
+                    )
+                })}
+            </Container>
+        </>
+    )
 }
-
-export default OfertasAjuda;

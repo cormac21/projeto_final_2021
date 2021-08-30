@@ -23,6 +23,7 @@ import GroupsListPage from "./pages/groups/GroupsListPage";
 import NewGroupPage from "./pages/groups/NewGroupPage";
 import EditPost from "./pages/aprendizado/editPost/EditPost";
 import MyOffers from "./pages/aprendizado/myOffers/MyOffers";
+import NewOffer from "./pages/aprendizado/newOffer/NewOffer";
 
 ReactDOM.render(
     <BrowserRouter>
