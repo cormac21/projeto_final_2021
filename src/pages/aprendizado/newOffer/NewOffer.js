@@ -61,7 +61,7 @@ class oferecerAjuda extends Component {
     .then(() => {
       alert("Oferta salva");
 
-      this.props.history.replace("/publicacoes");
+      this.props.history.replace("/posts");
     });
   }
   

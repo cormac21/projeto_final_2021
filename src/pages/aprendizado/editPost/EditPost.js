@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import { useState} from "react";
 import firebase from '../../../firebase.js';
 import CandidateList from "../../../components/CandidateList";
 import {useAuth} from "../../../contexto/AuthContext";
@@ -57,7 +57,7 @@ export default function EditPost(props) {
             })
             setLoading(false)
             alert("Deu certo o update!!")
-            history.replace("/minhasPublicacoes")
+            history.replace("/myPosts")
         } catch (e) {
             console.log(e)
         }

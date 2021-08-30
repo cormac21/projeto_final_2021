@@ -1,11 +1,11 @@
 import { useState} from 'react';
 import firebase from '../../../firebase.js';
-import SeletorDeCategoria from "../../../components/CategorySelector";
 import {PostProvider} from "../../../contexto/PostContext";
 import PostView from "../../../components/PostView";
 import {Container} from "react-bootstrap";
 import LevelOfMaturitySelector from "../../../components/LevelOfMaturitySelector";
 import {useAuth} from "../../../contexto/AuthContext";
+import CategorySelector from "../../../components/CategorySelector";
 
 export default function Posts(props) {
 
@@ -139,11 +139,11 @@ export default function Posts(props) {
                 <div className="row" style={{marginTop: "2em"  , paddingLeft: "20vw", marginRight: "auto"}}>
                     <div className="col">
                         <label> Selecione o tipo de pessoa que fez a publicação </label> <br />
-                        <LevelOfMaturitySelector callback={levelOfMaturityCallback} ></LevelOfMaturitySelector>
+                        <LevelOfMaturitySelector callback={levelOfMaturityCallback} />
                     </div>
                     <div className="col">
                         <label> Selecione a categoria da publicação </label> <br />
-                        <SeletorDeCategoria callback={categorySelectorCallback}></SeletorDeCategoria>
+                        <CategorySelector callback={categorySelectorCallback}></CategorySelector>
                     </div>
                 </div>
                 {list.map((child) => {

@@ -1,9 +1,10 @@
-import { useState} from 'react';
+import {useEffect, useState} from 'react';
 import firebase from '../../../firebase.js';
 import PostView from "../../../components/PostView"
 import BannerNenhumaPublicacao from "../../../components/NoPostsBanner"
-import PostContext from "../../../contexto/PostContext";
+import PostContext, {PostProvider} from "../../../contexto/PostContext";
 import {useAuth} from "../../../contexto/AuthContext";
+import NoPostsBanner from "../../../components/NoPostsBanner";
 
 export default function MyPosts(props) {
 
@@ -14,14 +15,12 @@ export default function MyPosts(props) {
     const postsRef = firebase.firestore().collection("posts")
     const categoriesRef = firebase.firestore().collection("categories")
 
-    getMyPosts()
-
-    async function getMyPosts() {
+    useEffect(() => {
         try {
             const query = postsRef.where("user", "==", currentUser.uid)
-            await query.get((snapshot) => {
+            query.get((snapshot) => {
+                const temporaryList = []
                 snapshot.forEach((doc) => {
-                    const temporaryList = []
                     temporaryList.push({
                         id: doc.data().uid,
                         title: doc.data().title,
@@ -32,16 +31,17 @@ export default function MyPosts(props) {
                         levelOfMaturity: doc.data().levelOfMaturity
                     })
                 })
+                setList(temporaryList)
             })
         } catch (e) {
             console.log(e)
         }
-    }
+    }, [list])
 
-    async function getCategories() {
+    useEffect(() => {
         try {
             if ( categoryList.length == 0) {
-                await categoriesRef.get().then((snapshot) => {
+                categoriesRef.get().then((snapshot) => {
                     const temporaryList = []
                     snapshot.forEach((doc) => {
                         temporaryList.push({
@@ -49,13 +49,13 @@ export default function MyPosts(props) {
                             name: doc.data().name
                         })
                     })
-                    setList(temporaryList)
+                    setCategoryList(temporaryList)
                 })
             }
         } catch (e) {
             console.log(e)
         }
-    }
+    }, [categoryList])
 
     if( list.length == 0) {
         return (
@@ -63,7 +63,7 @@ export default function MyPosts(props) {
                 <div className="page-container">
                     <div className="p-2 bd-highlight feedPublicacoesConhecimento content-wrap">
                         <h2 style={{color: "#3F4596", paddingTop: "1em", textAlign: "center"}}> Minhas Publicações </h2>
-                        <BannerNenhumaPublicacao></BannerNenhumaPublicacao>
+                        <NoPostsBanner />
                     </div>
                 </div>
             </>
@@ -83,9 +83,9 @@ export default function MyPosts(props) {
                                 }
                                 item.isOwner = isOwner;
                                 return (
-                                    <PostContext.Provider value={item}>
+                                    <PostProvider value={item}>
                                         <PostView/>
-                                    </PostContext.Provider>
+                                    </PostProvider>
                                 )
                             })
                         }

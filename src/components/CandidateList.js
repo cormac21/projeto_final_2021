@@ -13,8 +13,8 @@ export default function CandidateList(props) {
     let [nomeCandidatoSelecionado, setNomeCandidatoSelecionado] = useState("")
     let [listaDeIdsCandidatos, setListaDeIdsCandidatos] = useState(post.candidatos)
     let [listaDeCandidatos, setListaDeCandidatos] = useState([])
-    const refPublicacao = firebase.database().ref('publicacao')
-    const refUsuarios = firebase.database().ref('usuarios')
+    const refPublicacao = firebase.firestore().collection("posts")
+    const refUsuarios = firebase.firestore().collection("users")
 
     if (isOwner && listaDeIdsCandidatos != false) {
         carregarCandidatosDePublicacao(publicacaoId);
@@ -37,9 +37,16 @@ export default function CandidateList(props) {
     }
 
     async function carregarCandidatosDePublicacao(publicacaoId) {
-        setLoading(true)
+        try {
+            setLoading(true)
+            if (Array.isArray(listaDeIdsCandidatos)) {
+                setListaDeCandidatos([])
+
+            }
+        } catch (e) {
+            console.log(e)
+        }
         if (Array.isArray(listaDeIdsCandidatos)) {
-            listaDeCandidatos = []
             await listaDeIdsCandidatos.forEach((candidatos) => {
                 refUsuarios.child(candidatos.val().usuario).once('value', (snapshot) => {
                     listaDeCandidatos.push({

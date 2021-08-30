@@ -9,21 +9,19 @@ export default function CategorySelector(props) {
     let [list, setList] = useState([])
     const categoriesRef = firebase.firestore().collection("categories")
 
-    getCategories()
-
-    if( selectedCategory != undefined ) {
-        let value = list.filter((item) => item.id === selectedCategory)[0]
-        setSelectedValue(value.id)
-    }
+    useEffect(() => {
+        console.log('This only runs when selectedCategory changes')
+        if( selectedCategory != undefined ) {
+            let value = list.filter((item) => item.id === selectedCategory)[0]
+            setSelectedValue(value.id)
+        }
+    }, [selectedCategory])
 
     useEffect(() => {
-        console.log('Rendering CategorySelector')
-    })
-
-    async function getCategories() {
+        console.log('This only runs when list changes')
         try {
             if ( list.length == 0) {
-                await categoriesRef.get().then((snapshot) => {
+                categoriesRef.get().then((snapshot) => {
                     const temporaryList = []
                     snapshot.forEach((doc) => {
                         temporaryList.push({
@@ -37,7 +35,11 @@ export default function CategorySelector(props) {
         } catch (e) {
             console.log(e)
         }
-    }
+    }, [list])
+
+    useEffect(() => {
+        console.log('This runs when anything changes')
+    }, [])
 
     function handleChange(event) {
         setSelectedValue(event.target.value)

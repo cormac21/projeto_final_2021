@@ -5,7 +5,7 @@ import {Helmet} from 'react-helmet';
 import Footer from '../../../Footer';
 import SeletorDeCategoria from "../../../components/CategorySelector";
 import BotaoInscreverCandidatos from "../../../components/SignUpCandidateForPostButton"
-import OfertaView from "../../../components/OfertaView";
+import OfferView from "../../../components/OfferView";
 
 class OfertasAjuda extends Component {
 
@@ -198,8 +198,8 @@ class OfertasAjuda extends Component {
                         let categoria = this.state.listaCategorias.filter((categoria) => child.categoria === categoria.id)[0]
                         let usuario = this.state.listaUsuarios.filter((usuario) => child.usuario === usuario.id)[0]
                         return (
-                            <OfertaView ofertas={child} ofertasCategoria={categoria.nome}
-                                            ofertasUsuario={usuario.nome} />
+                            <OfferView ofertas={child} ofertasCategoria={categoria.nome}
+                                       ofertasUsuario={usuario.nome} />
                         )
                     })}
 

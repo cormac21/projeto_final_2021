@@ -6,10 +6,9 @@ import {useAuth} from "../contexto/AuthContext";
 export default function SignUpCandidateForPostButton(props) {
 
     const { currentUser } = useAuth()
-    const [user, setUser] = useState(null)
     const { post } = usePostContext()
     const [postId, setPostId] = useState(post.id)
-    const [isOwner, setIsOwner] = useState(post.ehDono)
+    const [isOwner, setIsOwner] = useState(post.isOwner)
     const [isDisabled, setIsDisabled] = useState(false)
     const refPosts = firebase.firestore().collection("post").doc(postId)
 

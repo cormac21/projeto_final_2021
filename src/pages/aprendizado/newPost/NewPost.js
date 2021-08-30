@@ -55,7 +55,7 @@ export default function NewPost(props) {
             })
             alert("Publicação salva!")
             setLoading(false)
-            history.push("/publicacoes")
+            history.push("/posts")
         } catch (e) {
             console.log(e)
         }

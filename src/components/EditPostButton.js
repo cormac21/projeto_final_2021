@@ -11,7 +11,7 @@ export default function EditPostButton() {
     let history = useHistory()
 
     function editPostRedirect() {
-        history.push("/editarPublicacao/" + postId + "?categoria=" + category)
+        history.push("/editPost/" + postId + "?categoria=" + category)
     }
 
     if (isOwner) {
