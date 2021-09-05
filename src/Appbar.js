@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import Button from 'react-bootstrap/Button'
+import {useState} from 'react';
+import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap'
 import firebase from './firebase'
-import NavDropdown from 'react-bootstrap/NavDropdown'
 import './Appbar.css'
 import profile from './profile.png'
 import {useAuth} from "./contexto/AuthContext";

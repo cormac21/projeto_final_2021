@@ -1,22 +1,30 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {useAuth} from "../../contexto/AuthContext";
-import {Card, Container, Form} from "react-bootstrap";
+import {Button, Card, Container, Form} from "react-bootstrap";
 import firebase from "../../firebase"
+import {useHistory} from "react-router-dom";
 
 export default function NewGroupPage(props) {
 
     const { currentUser } = useAuth()
+    const [loading, setLoading] = useState(false)
     const groupNameRef = useRef()
     const groupsRef = firebase.firestore().collection("groups")
+    let history = useHistory()
 
     async function handleNewGroupSubmit(event) {
+        event.preventDefault()
+        setLoading(true)
         try {
             await groupsRef.add({
                 groupName: groupNameRef.current.value,
                 ownerId: currentUser.uid,
-                createdOn: new Date().toISOString()
+                createdOn: new Date().toISOString(),
+                members: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
             })
-
+            setLoading(false)
+            alert('Grupo criado com sucesso!')
+            history.push('/grupos')
         } catch (e) {
             console.log(e)
         }
@@ -35,6 +43,8 @@ export default function NewGroupPage(props) {
                                     <Form.Label> Nome do grupo: </Form.Label>
                                     <Form.Control type="text" ref={groupNameRef} ></Form.Control>
                                 </Form.Group>
+                                <br/>
+                                <Button type="submit" style={{float: "right"}} disabled={loading} > Criar </Button>
                             </Form>
                         </Card.Body>
                     </Card>

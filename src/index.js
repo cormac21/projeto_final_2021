@@ -24,6 +24,7 @@ import NewGroupPage from "./pages/groups/NewGroupPage";
 import EditPost from "./pages/aprendizado/editPost/EditPost";
 import MyOffers from "./pages/aprendizado/myOffers/MyOffers";
 import NewOffer from "./pages/aprendizado/newOffer/NewOffer";
+import PrivateRoute from "./components/PrivateRoute";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -32,20 +33,20 @@ ReactDOM.render(
 
             <Switch>
                 <Route exact path="/login" component={LoginPage}/>
-                <Route exact path="/changePassword" component={ChangePassword} />
+                <Route exact path="/mudar_senha" component={ChangePassword} />
                 <Route exact path="/categorias" component={DashboardCategoria}/>
                 <Route exact path="/cadastro" component={Signup}/>
-                <Route exact path="/forgot-password" component={ResetSenha}/>
+                <Route exact path="/reset_senha" component={ResetSenha}/>
                 <Route exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/publicacoes" component={Publicacoes}/>
-                <Route exact path="/userProfile" component={UserProfile}/>
-                <Route exact path="/novaPublicacao" component={NewPost}/>
-                <Route exact path="/ofertasAjuda" component={OferertasAjuda}/>
-                <Route exact path="/oferecerAjuda" component={NewOffer}/>
-                <Route exact path="/minhasPublicacoes" component={MinhasPublicacoes}/>
-                <Route exact path="/minhasOfertas" component={MyOffers}/>
-                <Route exact path="/groups" component={GroupsListPage}/>
-                <Route exact path="/newGroup" component={NewGroupPage}/>
+                <Route exact path="/perfil_usuario" component={UserProfile}/>
+                <Route exact path="/nova_publicacao" component={NewPost}/>
+                <Route exact path="/ofertas_ajuda" component={OferertasAjuda}/>
+                <Route exact path="/nova_oferta" component={NewOffer}/>
+                <Route exact path="/minhas_publicacoes" component={MinhasPublicacoes}/>
+                <Route exact path="/minhas_ofertas" component={MyOffers}/>
+                <Route exact path="/grupos" component={GroupsListPage}/>
+                <PrivateRoute exact path="/novo_grupo" component={NewGroupPage}/>
                 <Route path="/editarOfertas/:id" component={EditarOfertas}/>
                 <Route path="/editarPublicacao/:id" component={EditPost}/>
             </Switch>
