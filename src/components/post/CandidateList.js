@@ -1,6 +1,6 @@
 import { useState} from 'react'
-import firebase from '../firebase'
-import {usePostContext} from "../contexto/PostContext";
+import firebase from '../../firebase'
+import {usePostContext} from "../../contexto/PostContext";
 
 export default function CandidateList(props) {
 

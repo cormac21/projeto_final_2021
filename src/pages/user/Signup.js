@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom"
-import LevelOfMaturitySelector from "../../components/LevelOfMaturitySelector";
+import LevelOfMaturitySelector from "../../components/levelofmaturity/LevelOfMaturitySelector";
 
 export default function Signup(props) {
 

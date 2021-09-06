@@ -1,10 +1,10 @@
 import React, { useState} from 'react';
 import firebase from '../../../firebase.js';
-import OfferView from "../../../components/OfferView";
+import OfferView from "../../../components/offer/OfferView";
 import {useAuth} from "../../../contexto/AuthContext";
 import {Container} from "react-bootstrap";
-import LevelOfMaturitySelector from "../../../components/LevelOfMaturitySelector";
-import CategorySelector from "../../../components/CategorySelector";
+import LevelOfMaturitySelector from "../../../components/levelofmaturity/LevelOfMaturitySelector";
+import CategorySelector from "../../../components/category/CategorySelector";
 import {OfferProvider} from "../../../contexto/OfferContext";
 
 export default function Offers(props) {

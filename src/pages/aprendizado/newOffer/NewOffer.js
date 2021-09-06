@@ -4,7 +4,7 @@ import firebase from '../../../firebase.js';
 import {useAuth} from "../../../contexto/AuthContext";
 import {useHistory} from "react-router-dom";
 import {Alert, Button, Card, Container, Form} from "react-bootstrap";
-import CategorySelector from "../../../components/CategorySelector";
+import CategorySelector from "../../../components/category/CategorySelector";
 
 export default function NewOffer(props) {
 

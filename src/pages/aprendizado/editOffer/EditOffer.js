@@ -2,13 +2,13 @@ import React, {Component, useState} from "react";
 import firebase from '../../../firebase.js';
 import {Helmet} from "react-helmet";
 //import Footer from "../../../Footer";
-import SeletorDeCategoria from "../../../components/CategorySelector";
-import OffersListOfCandidates from "../../../components/OffersListOfCandidates";
+import SeletorDeCategoria from "../../../components/category/CategorySelector";
+import OffersListOfCandidates from "../../../components/offer/OffersListOfCandidates";
 import {useAuth} from "../../../contexto/AuthContext";
 import {useHistory} from "react-router-dom";
 import {Alert, Button, Card, Form} from "react-bootstrap";
-import CategorySelector from "../../../components/CategorySelector";
-import CandidateList from "../../../components/CandidateList";
+import CategorySelector from "../../../components/category/CategorySelector";
+import CandidateList from "../../../components/post/CandidateList";
 
 export default function EditOffer(props) {
     const {currentUser} = useAuth()

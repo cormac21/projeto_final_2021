@@ -1,6 +1,6 @@
 import {Button, Container} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import GroupsListComponent from "../../components/GroupsListComponent";
+import GroupsListComponent from "../../components/group/GroupsListComponent";
 
 
 export default function GroupsListPage(props) {

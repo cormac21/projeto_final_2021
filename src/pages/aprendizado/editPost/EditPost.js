@@ -1,15 +1,15 @@
 import {useState} from "react";
 import firebase from '../../../firebase.js';
-import CandidateList from "../../../components/CandidateList";
+import CandidateList from "../../../components/post/CandidateList";
 import {useAuth} from "../../../contexto/AuthContext";
 import {useHistory} from "react-router-dom";
-import CategorySelector from "../../../components/CategorySelector";
+import CategorySelector from "../../../components/category/CategorySelector";
 import {Alert, Button, Card, Form} from "react-bootstrap";
 
 export default function EditPost(props) {
 
     const {currentUser} = useAuth()
-    const [postId, setPostId] = useState(props.match.params.id)
+    const postId = props.match.params.id
     const [categoryId, setCategoryId] = useState(new URLSearchParams(props.location.search).get("categoria"))
     const [post, setPost] = useState("")
     const [loading, setLoading] = useState(true)

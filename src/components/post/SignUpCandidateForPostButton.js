@@ -1,7 +1,7 @@
 import { useState} from "react";
-import firebase from '../firebase'
-import {usePostContext} from "../contexto/PostContext";
-import {useAuth} from "../contexto/AuthContext";
+import firebase from '../../firebase'
+import {usePostContext} from "../../contexto/PostContext";
+import {useAuth} from "../../contexto/AuthContext";
 
 export default function SignUpCandidateForPostButton(props) {
 

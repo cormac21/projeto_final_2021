@@ -1,6 +1,6 @@
 import { useState} from 'react'
-import firebase from '../firebase'
-import {useOfferContext} from "../contexto/OfferContext";
+import firebase from '../../firebase'
+import {useOfferContext} from "../../contexto/OfferContext";
 
 export default function OffersListOfCandidates(props) {
 
