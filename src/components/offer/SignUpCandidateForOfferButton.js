@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import firebase from '../../firebase'
-import {useAuth} from "../../contexto/AuthContext";
-import {usePostContext} from "../../contexto/PostContext";
-import {useOfferContext} from "../../contexto/OfferContext";
+import {useAuth} from "../../context/AuthContext";
+import {usePostContext} from "../../context/PostContext";
+import {useOfferContext} from "../../context/OfferContext";
 
 export default function SignUpCandidateForOfferButton(props) {
     const { currentUser } = useAuth()

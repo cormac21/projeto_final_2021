@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import firebase from '../../firebase.js'
-import {useAuth} from "../../contexto/AuthContext";
+import {useAuth} from "../../context/AuthContext";
 import {Alert, Button, Card, Container, Form, FormLabel} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import {useHistory} from "react-router-dom";

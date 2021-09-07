@@ -2,7 +2,7 @@ import React, { useRef, useState} from 'react'
 import {Alert, Form, Card, Container} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {Link} from 'react-router-dom';
-import {useAuth} from "../../contexto/AuthContext";
+import {useAuth} from "../../context/AuthContext";
 
 export default function PasswordReset() {
 

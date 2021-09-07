@@ -1,5 +1,5 @@
 import {useRef, useState} from "react";
-import {useAuth} from "../../contexto/AuthContext";
+import {useAuth} from "../../context/AuthContext";
 import {Button, Card, Container, Form} from "react-bootstrap";
 import firebase from "../../firebase"
 import {useHistory} from "react-router-dom";

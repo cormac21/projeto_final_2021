@@ -1,7 +1,7 @@
 import React, { useRef, useState} from 'react';
 import '../../dashboard/dashboard.css';
 import firebase from '../../../firebase.js';
-import {useAuth} from "../../../contexto/AuthContext";
+import {useAuth} from "../../../context/AuthContext";
 import {useHistory} from "react-router-dom";
 import {Alert, Button, Card, Container, Form} from "react-bootstrap";
 import CategorySelector from "../../../components/category/CategorySelector";

@@ -1,6 +1,6 @@
 import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
 import {useRef, useState} from "react";
-import { useAuth } from '../../contexto/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import firebase from '../../firebase'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

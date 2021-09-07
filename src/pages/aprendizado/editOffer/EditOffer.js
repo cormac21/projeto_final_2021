@@ -4,7 +4,7 @@ import {Helmet} from "react-helmet";
 //import Footer from "../../../Footer";
 import SeletorDeCategoria from "../../../components/category/CategorySelector";
 import OffersListOfCandidates from "../../../components/offer/OffersListOfCandidates";
-import {useAuth} from "../../../contexto/AuthContext";
+import {useAuth} from "../../../context/AuthContext";
 import {useHistory} from "react-router-dom";
 import {Alert, Button, Card, Form} from "react-bootstrap";
 import CategorySelector from "../../../components/category/CategorySelector";

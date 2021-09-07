@@ -2,7 +2,7 @@ import { useState} from 'react'
 import EditPostButton from './EditPostButton'
 import CandidateList from "./CandidateList";
 import SignUpCandidateForPostButton from "./SignUpCandidateForPostButton";
-import {usePostContext} from "../../contexto/PostContext";
+import {usePostContext} from "../../context/PostContext";
 
 export default function PostView(props) {
 

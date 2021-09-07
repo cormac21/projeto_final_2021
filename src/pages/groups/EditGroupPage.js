@@ -1,9 +1,9 @@
-import {useAuth} from "../../contexto/AuthContext";
-import {useEffect, useRef, useState} from "react";
+import {useAuth} from "../../context/AuthContext";
+import {useEffect, useState} from "react";
 import firebase from "../../firebase";
 import {useHistory} from "react-router-dom";
 import {Button, Card, Container, Form} from "react-bootstrap";
-
+import GroupMembersList from "../../components/group/GroupMembersList";
 
 export default function EditGroupPage(props) {
 

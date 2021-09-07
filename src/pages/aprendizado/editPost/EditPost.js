@@ -1,7 +1,7 @@
 import {useState} from "react";
 import firebase from '../../../firebase.js';
 import CandidateList from "../../../components/post/CandidateList";
-import {useAuth} from "../../../contexto/AuthContext";
+import {useAuth} from "../../../context/AuthContext";
 import {useHistory} from "react-router-dom";
 import CategorySelector from "../../../components/category/CategorySelector";
 import {Alert, Button, Card, Form} from "react-bootstrap";

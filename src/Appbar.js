@@ -3,7 +3,7 @@ import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap'
 import firebase from './firebase'
 import './Appbar.css'
 import profile from './profile.png'
-import {useAuth} from "./contexto/AuthContext";
+import {useAuth} from "./context/AuthContext";
 import DropdownItem from "react-bootstrap/DropdownItem";
 import {useHistory} from "react-router-dom";
 

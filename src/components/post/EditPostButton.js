@@ -1,6 +1,6 @@
 import { useState} from 'react'
 import {useHistory} from "react-router-dom";
-import {usePostContext} from "../../contexto/PostContext";
+import {usePostContext} from "../../context/PostContext";
 
 export default function EditPostButton() {
 

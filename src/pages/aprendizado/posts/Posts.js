@@ -1,10 +1,10 @@
 import { useState} from 'react';
 import firebase from '../../../firebase.js';
-import {PostProvider} from "../../../contexto/PostContext";
+import {PostProvider} from "../../../context/PostContext";
 import PostView from "../../../components/post/PostView";
 import {Container} from "react-bootstrap";
 import LevelOfMaturitySelector from "../../../components/levelofmaturity/LevelOfMaturitySelector";
-import {useAuth} from "../../../contexto/AuthContext";
+import {useAuth} from "../../../context/AuthContext";
 import CategorySelector from "../../../components/category/CategorySelector";
 
 export default function Posts(props) {

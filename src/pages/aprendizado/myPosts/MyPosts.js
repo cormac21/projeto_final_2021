@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import firebase from '../../../firebase.js';
 import PostView from "../../../components/post/PostView"
-import {PostProvider} from "../../../contexto/PostContext";
-import {useAuth} from "../../../contexto/AuthContext";
+import {PostProvider} from "../../../context/PostContext";
+import {useAuth} from "../../../context/AuthContext";
 import NoPostsBanner from "../../../components/post/NoPostsBanner";
 
 export default function MyPosts(props) {

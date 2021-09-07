@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import firebase from '../../../firebase.js';
 import OfferView from "../../../components/offer/OfferView"
-import {useAuth} from "../../../contexto/AuthContext";
+import {useAuth} from "../../../context/AuthContext";
 import NoOffersBanner from "../../../components/offer/NoOffersBanner";
-import {OfferProvider} from "../../../contexto/OfferContext";
+import {OfferProvider} from "../../../context/OfferContext";
 
 export default function MyOffers(props) {
 

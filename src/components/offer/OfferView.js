@@ -1,7 +1,7 @@
 import { useState} from 'react'
 import SignUpCandidateForPostButton from "../post/SignUpCandidateForPostButton";
 import CandidateList from "../post/CandidateList";
-import {useOfferContext} from "../../contexto/OfferContext";
+import {useOfferContext} from "../../context/OfferContext";
 import EditOfferButton from "./EditOfferButton";
 
 export default function OfferView(props) {
