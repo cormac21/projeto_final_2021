@@ -1,15 +1,14 @@
-import {useGroupContext} from "../../context/GroupContext";
 import {Button} from "react-bootstrap";
 import firebase from '../../firebase'
 
 export default function RemoveGroupMemberButton(props) {
 
-    const { groupContext } = useGroupContext()
+    const groupId = props.groupId
     const groupsRef = firebase.firestore().collection('groups')
 
     function handleRemoveMember() {
         try {
-            groupsRef.doc(groupContext.id).set({
+            groupsRef.doc(groupId).set({
                 members: firebase.firestore.FieldValue.arrayRemove()
             })
         } catch (e) {

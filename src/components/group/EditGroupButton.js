@@ -1,16 +1,14 @@
 import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import {useGroupContext} from "../../context/GroupContext";
-
 
 export default function EditGroupButton(props) {
 
-    const { group } = useGroupContext()
+    const groupId = props.groupId
     const isOwner = props.isOwner
     let history = useHistory()
 
     function editGroupRedirect() {
-        history.push('/edit_group/'.concat(group.id))
+        history.push('/edit_group/'.concat(groupId))
     }
 
     if ( isOwner ) {

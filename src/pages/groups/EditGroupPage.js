@@ -20,7 +20,7 @@ export default function EditGroupPage(props) {
         try {
             setLoading(true)
             groupsRef.doc(groupId).get().then(snap => {
-
+                setGroupName(snap.data().groupName)
             })
             setLoading(false)
         } catch (e) {
@@ -68,7 +68,7 @@ export default function EditGroupPage(props) {
                 <div className="w-100" style={{maxWidth: "600px"}}>
                     <Card>
                         <Card.Body>
-                            <h2 className="text-center mb-4">Novo Grupo</h2>
+                            <h2 className="text-center mb-4">Editar Grupo</h2>
                             <Form onSubmit={handleEditCompleted}>
                                 <Form.Group id="groupName">
                                     <Form.Label> Nome do grupo: </Form.Label>

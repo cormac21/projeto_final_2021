@@ -4,7 +4,6 @@ import firebase from '../../firebase'
 import EditGroupButton from "./EditGroupButton";
 import {useAuth} from "../../context/AuthContext";
 import DeleteGroupButton from "./DeleteGroupButton";
-import {GroupProvider} from "../../context/GroupContext";
 
 export default function GroupsListComponent(props) {
 
@@ -13,17 +12,15 @@ export default function GroupsListComponent(props) {
     const groupsRef = firebase.firestore().collection('groups')
 
     useEffect(() => {
-        console.log('get groups effect called')
         try {
             groupsRef.get().then(snapshot => {
                 let tempList = []
                 snapshot.forEach(item => {
                     tempList.push({
-                        id: item.id,
+                        uid: item.id,
                         groupName: item.data().groupName,
                         ownerId: item.data().ownerId,
-                        createdOn: item.data().createdOn,
-                        members: item.data().members
+                        createdOn: item.data().createdOn
                     })
                 })
                 setGroupList(tempList)
@@ -35,26 +32,24 @@ export default function GroupsListComponent(props) {
 
     return (
         <>
-            <Container>
+            <Container className="vh-100 d-flex flex-column">
                 {groupList.map((item) => {
                     if (item.ownerId === currentUser.uid) {
                         item.isOwner = true;
                     }
                     return (
-                        <GroupProvider groupId={item.id} key={item.id}>
-                            <Row >
-                                <Col>
-                                    <p>{item.groupName}</p>
-                                    <p>{item.createdOn}</p>
-                                </Col>
-                                <Col xs lg="2">
-                                    <EditGroupButton isOwner={item.isOwner} />
-                                </Col>
-                                <Col xs lg="2">
-                                    <DeleteGroupButton isOwner={item.isOwner} />
-                                </Col>
-                            </Row>
-                        </GroupProvider>
+                        <Row key={item.uid}>
+                            <Col>
+                                <p>{item.groupName}</p>
+                                <p>{item.createdOn}</p>
+                            </Col>
+                            <Col xs lg="2">
+                                <EditGroupButton isOwner={item.isOwner} groupId={item.uid}/>
+                            </Col>
+                            <Col xs lg="2">
+                                <DeleteGroupButton isOwner={item.isOwner} groupId={item.uid}/>
+                            </Col>
+                        </Row>
                     )
                 })}
             </Container>

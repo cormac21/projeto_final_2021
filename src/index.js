@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Switch, BrowserRouter } from "react-router-dom"
+import {Route, Switch, BrowserRouter} from 'react-router-dom';
 
 import Dashboard from './pages/dashboard'
 import Publicacoes from './pages/aprendizado/posts/Posts'
@@ -12,7 +12,6 @@ import ResetSenha from "./pages/user/PasswordReset";
 import Appbar from "./Appbar";
 import OferertasAjuda from "./pages/aprendizado/offers/Offers";
 import EditarOfertas from "./pages/aprendizado/editOffer/EditOffer";
-import {AuthProvider} from "./context/AuthContext";
 import Signup from "./pages/user/Signup";
 import LoginPage from "./pages/user/Login";
 import UserProfile from "./pages/user/UserProfile";
@@ -23,8 +22,9 @@ import NewGroupPage from "./pages/groups/NewGroupPage";
 import EditPost from "./pages/aprendizado/editPost/EditPost";
 import MyOffers from "./pages/aprendizado/myOffers/MyOffers";
 import NewOffer from "./pages/aprendizado/newOffer/NewOffer";
-import PrivateRoute from "./components/PrivateRoute";
 import EditGroupPage from "./pages/groups/EditGroupPage";
+import PrivateRoute from "./components/PrivateRoute";
+import {AuthProvider} from "./context/AuthContext";
 
 ReactDOM.render(
     <BrowserRouter>
